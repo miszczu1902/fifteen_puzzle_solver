@@ -1,27 +1,29 @@
 package sise.fifteen;
 
+import java.util.List;
+
 public class Board {
-    private int[][] fields = new int[][]{};
+    private int[][] fields;
     private int width;
     private int height;
 
     public Board() {
     }
 
-    public Board(String params) {
-        this.width = params.charAt(0);
-        this.height = params.charAt(1);
+    public Board(List<Integer> params) {
+        this.width = params.get(0);
+        this.height = params.get(1);
 
-        int len = params.length() - 2;
-        int X = this.width - len % this.width;
-        int Y = this.height - len % this.height;
+        int[][] tmp = new int[width][height];
         int index = 2;
 
-        for (int x = X; x < X + width; x++) {
-            for (int y = Y; y < Y + height; y++) {
-                this.fields[x][y] = params.charAt(index++);
+        for (int x = 0; x <  width; x++) {
+            for (int y = 0; y < height; y++) {
+                tmp[x][y] = params.get(index);
+                index++;
             }
         }
+        this.fields = tmp;
     }
 
     public int getWidth() {
@@ -30,5 +32,9 @@ public class Board {
 
     public int getHeight() {
         return height;
+    }
+
+    public int[][] getFields() {
+        return fields;
     }
 }

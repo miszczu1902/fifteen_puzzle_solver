@@ -1,36 +1,27 @@
 package sise.fifteen;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class IOFileOperations implements AutoCloseable {
-    public static String readFromFile(String argument) {
-        StringBuilder stringBuilder = new StringBuilder();
-        String path = Paths.get(argument).toString();
+    public static List<Integer> readFromFile(String argument) throws IOException {
+        Path filePath = Paths.get(argument);
+        List<Integer> integers = new ArrayList<>();
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
-            String row;
-
-            while ((row = bufferedReader.readLine()) != null) {
-                stringBuilder.append(row);
-                int index = 0;
-
-                for (int i = 0; i < stringBuilder.length(); i++) {
-                    if (!Character.isWhitespace(stringBuilder.charAt(i))) {
-                        stringBuilder.setCharAt(index++, stringBuilder.charAt(i));
-                    }
+        try (Scanner scanner = new Scanner(filePath)) {
+            while (scanner.hasNext()) {
+                if (scanner.hasNextInt()) {
+                    integers.add(scanner.nextInt());
+                } else {
+                    scanner.next();
                 }
-                stringBuilder.delete(index, stringBuilder.length());
             }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
-        return stringBuilder.toString();
-
+        return integers;
     }
 
     public static void saveSolutionToFile(Path path) {
