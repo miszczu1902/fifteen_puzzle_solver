@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class IOFileOperations implements AutoCloseable {
-    public static List<Integer> readFromFile(String argument) throws IOException {
+    public static List<Integer> readFromFile(String argument) {
         Path filePath = Paths.get(argument);
         List<Integer> integers = new ArrayList<>();
 
@@ -20,7 +20,10 @@ public class IOFileOperations implements AutoCloseable {
                     scanner.next();
                 }
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
         return integers;
     }
 
