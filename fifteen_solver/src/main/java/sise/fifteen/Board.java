@@ -40,18 +40,16 @@ public class Board {
 
     public void move(Movement move) {
         boolean flag = false;
-        System.out.println("a");
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 if (fields[x][y] == 0) {
                     switch (move) {
                         case R:
-                            if (y + 1 < height) {
+                            if (y + 1 <= height) {
                                 int tmp = fields[x][y + 1];
                                 fields[x][y] = tmp;
                                 fields[x][y + 1] = 0;
-                            } else {
                                 return;
                             }
                         case L:
@@ -59,8 +57,20 @@ public class Board {
                                 int tmp = fields[x][y - 1];
                                 fields[x][y] = tmp;
                                 fields[x][y - 1] = 0;
-                                System.out.println("aaaa");
-                            } else {
+                                return;
+                            }
+                        case D:
+                            if (x + 1 <= height) {
+                                int tmp = fields[x + 1][y];
+                                fields[x][y] = tmp;
+                                fields[x + 1][y] = 0;
+                                return;
+                            }
+                        case U:
+                            if (x - 1 <= height) {
+                                int tmp = fields[x - 1][y];
+                                fields[x][y] = tmp;
+                                fields[x - 1][y] = 0;
                                 return;
                             }
                     }
@@ -73,4 +83,25 @@ public class Board {
             }
         }
     }
+
+    public boolean isOrdered() {
+        int expectedValue = 1;
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (x == width - 1 && y == height - 1) {
+                    if (fields[x][y] != 0) {
+                        return false;
+                    }
+                } else {
+                    if (fields[x][y] != expectedValue) {
+                        return false;
+                    }
+                }
+                expectedValue++;
+            }
+        }
+        return true;
+    }
 }
+
