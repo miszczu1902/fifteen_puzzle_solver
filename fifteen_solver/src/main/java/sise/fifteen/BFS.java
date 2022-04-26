@@ -1,4 +1,8 @@
 package sise.fifteen;
 
-public class BFS implements StrategyBlind{
+public class BFS {
+
+
+    public BFS() {
+    }
 }

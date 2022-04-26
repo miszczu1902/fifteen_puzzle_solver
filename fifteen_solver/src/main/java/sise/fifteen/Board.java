@@ -26,75 +26,161 @@ public class Board {
         this.fields = tmp;
     }
 
-    public int getWidth() {
+
+    public int getWidth(List<Integer> params) {
         return width;
     }
 
-    public int getHeight() {
+    public int getHeight(List<Integer> params) {
         return height;
     }
+//    public int getWidth() {
+//        return width;
+//    }
+//
+//    public int getHeight() {
+//        return height;
+//    }
 
-    public int[][] getFields() {
+    public int[][] getFields(List<Integer> integers) {
         return fields;
     }
+//    public int[][] getFields() {
+//        return fields;
+//    }
 
-    public void move(Movement move) {
-        boolean flag = false;
+//    public void move(Movement move) {
+//        boolean flag = false;
+//
+//        for (int x = 0; x < width; x++) {
+//            for (int y = 0; y < height; y++) {
+//                if (fields[x][y] == 0) {
+//                    switch (move) {
+//                        case R:
+//                            if (y + 1 < height) {
+//                                System.out.println(y+1);
+//                                int tmp = fields[x][y + 1];
+//                                fields[x][y] = tmp;
+//                                fields[x][y + 1] = 0;
+//                                return;
+//                            }
+//                            else {
+//                            return;
+//                            }
+//
+//                        case L:
+//                            if (y - 1 >= 0) {
+//                                int tmp = fields[x][y - 1];
+//                                fields[x][y] = tmp;
+//                                fields[x][y - 1] = 0;
+//                                return;
+//                            }
+//                            else {
+//                                return;
+//                            }
+//                        case D:
+//                            if (x + 1 < height) {
+//                                int tmp = fields[x + 1][y];
+//                                fields[x][y] = tmp;
+//                                fields[x + 1][y] = 0;
+//                                return;
+//                            }
+//                            else {
+//                                return;
+//                            }
+//                        case U:
+//                            if (x - 1 >=0) {
+//                                int tmp = fields[x - 1][y];
+//                                fields[x][y] = tmp;
+//                                fields[x - 1][y] = 0;
+//                                return;
+//                            }else {
+//                                return;
+//                            }
+//                    }
+//                    flag = true;
+//                    break;
+//                }
+//                if (flag) {
+//                    break;
+//                }
+//            }
+//        }
+//    }
+public void move(Movement move,int[][] startboard,int width,int height) {
+    boolean flag = false;
 
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                if (fields[x][y] == 0) {
-                    switch (move) {
-                        case R:
-                            if (y + 1 <= height) {
-                                int tmp = fields[x][y + 1];
-                                fields[x][y] = tmp;
-                                fields[x][y + 1] = 0;
-                                return;
-                            }
-                        case L:
-                            if (y - 1 >= 0) {
-                                int tmp = fields[x][y - 1];
-                                fields[x][y] = tmp;
-                                fields[x][y - 1] = 0;
-                                return;
-                            }
-                        case D:
-                            if (x + 1 <= height) {
-                                int tmp = fields[x + 1][y];
-                                fields[x][y] = tmp;
-                                fields[x + 1][y] = 0;
-                                return;
-                            }
-                        case U:
-                            if (x - 1 <= height) {
-                                int tmp = fields[x - 1][y];
-                                fields[x][y] = tmp;
-                                fields[x - 1][y] = 0;
-                                return;
-                            }
-                    }
-                    flag = true;
-                    break;
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+
+            if (startboard[x][y] == 0) {
+
+                switch (move) {
+                    case R:
+                        if (y + 1 < height) {
+
+                            int tmp = startboard[x][y + 1];
+                            startboard[x][y] = tmp;
+                            startboard[x][y + 1] = 0;
+                            return;
+                        }
+                        else {
+                            return;
+                        }
+
+                    case L:
+
+                        if (y - 1 >= 0) {
+                            int tmp = startboard[x][y - 1];
+                            startboard[x][y] = tmp;
+                            startboard[x][y - 1] = 0;
+                            return;
+                        }
+                        else {
+                            return;
+                        }
+                    case D:
+                        if (x + 1 < height) {
+                            int tmp = startboard[x + 1][y];
+                            startboard[x][y] = tmp;
+                            startboard[x + 1][y] = 0;
+                            return;
+                        }
+                        else {
+                            return;
+                        }
+                    case U:
+                        if (x - 1 >=0) {
+                            int tmp = startboard[x - 1][y];
+                            startboard[x][y] = tmp;
+                            startboard[x - 1][y] = 0;
+                            return;
+                        }else {
+                            return;
+                        }
                 }
-                if (flag) {
-                    break;
-                }
+                flag = true;
+                break;
+            }
+            if (flag) {
+                break;
             }
         }
     }
+}
+    public boolean isOrdered(int[][] testBoard,int width,int height) {
 
-    public boolean isOrdered() {
         int expectedValue = 1;
-
         for (int x = 0; x < width; x++) {
+
             for (int y = 0; y < height; y++) {
+
                 if (x == width - 1 && y == height - 1) {
-                    if (fields[x][y] != 0) {
+                    if (testBoard[x][y] != 0) {
                         return false;
                     }
                 } else {
-                    if (fields[x][y] != expectedValue) {
+                    if (testBoard[x][y] != expectedValue) {
                         return false;
                     }
                 }
