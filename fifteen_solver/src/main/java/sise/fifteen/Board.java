@@ -52,6 +52,8 @@ public class Board {
                                 fields[x][y] = tmp;
                                 fields[x][y + 1] = 0;
                                 return true;
+                            } else {
+                                return false;
                             }
                         case L:
                             if (y - 1 >= 0) {
@@ -59,6 +61,8 @@ public class Board {
                                 fields[x][y] = tmp;
                                 fields[x][y - 1] = 0;
                                 return true;
+                            } else {
+                                return false;
                             }
                         case D:
                             if (x + 1 < height) {
@@ -66,6 +70,8 @@ public class Board {
                                 fields[x][y] = tmp;
                                 fields[x + 1][y] = 0;
                                 return true;
+                            } else {
+                                return false;
                             }
                         case U:
                             if (x - 1 >= 0) {
@@ -73,6 +79,8 @@ public class Board {
                                 fields[x][y] = tmp;
                                 fields[x - 1][y] = 0;
                                 return true;
+                            } else {
+                                return false;
                             }
                     }
                 }
