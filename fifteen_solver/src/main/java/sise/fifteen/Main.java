@@ -34,7 +34,9 @@ public class Main {
         System.out.println(Arrays.deepToString(board.getFields()));
         System.out.println(board.isOrdered());
         System.out.println(Arrays.deepToString(board.getFields()));
-        board.move(Movement.R);
+        System.out.println(board.move(Movement.R));
+        System.out.println(Arrays.deepToString(board.getFields()));
+        System.out.println(board.move(Movement.R));
         System.out.println(Arrays.deepToString(board.getFields()));
     }
 
