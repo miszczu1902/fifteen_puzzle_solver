@@ -35,6 +35,10 @@ public class State implements Cloneable {
         return depth;
     }
 
+    public List<State> getNextStates() {
+        return nextStates;
+    }
+
     public boolean isGoalState() {
         return this.board.isOrdered();
     }
@@ -47,43 +51,57 @@ public class State implements Cloneable {
         return this.getPreviousMove() == potentialBack;
     }
 
-    public void generateNextStates(String movingOrder) throws CloneNotSupportedException {
-        for (int i = 0; i < movingOrder.length(); i++) {
-            char moveOperator = movingOrder.charAt(i);
+    public void generateNextStates() throws CloneNotSupportedException {
+        for (int i = 0; i < this.movingOrder.length(); i++) {
+            if (this.depth == 20) {
+                return;
+            }
+            char moveOperator = this.movingOrder.charAt(i);
+            System.out.println(moveOperator);
             State nextState = this.clone();
 
             switch (moveOperator) {
                 case 'L':
-                    if (this.getBoard().move(Movement.L) && !this.isGoingBack(moveOperator)) {
+                    if (this.getBoard().move(Movement.L) ) {
                         nextState.board.move(Movement.L);
-                        nextState.previousMove = moveOperator;
-                        nextStates.add(nextState);
+                    } else {
+                        continue;
                     }
                 case 'R':
-                    if (this.getBoard().move(Movement.R) && !this.isGoingBack(moveOperator)) {
+                    if (this.getBoard().move(Movement.R) ) {
                         nextState.board.move(Movement.R);
-                        nextState.previousMove = moveOperator;
-                        nextStates.add(nextState);
+                    } else {
+                        continue;
                     }
                 case 'U':
-                    if (this.getBoard().move(Movement.U) && !this.isGoingBack(moveOperator)) {
+                    if (this.getBoard().move(Movement.U)) {
                         nextState.board.move(Movement.U);
-                        nextState.previousMove = moveOperator;
-                        nextStates.add(nextState);
+                    } else {
+                        continue;
                     }
                 case 'D':
-                    if (this.getBoard().move(Movement.D) && !this.isGoingBack(moveOperator)) {
+                    if (this.getBoard().move(Movement.D)) {
                         nextState.board.move(Movement.D);
-                        nextState.previousMove = moveOperator;
-                        nextStates.add(nextState);
+                    } else {
+                        continue;
                     }
             }
+            nextState.previousMove = moveOperator;
+            nextState.depth += 1;
             nextState.previousState = this;
+            nextStates.add(nextState);
         }
     }
 
     @Override
     protected State clone() throws CloneNotSupportedException {
-        return new State(this.getBoard(), this.getMovingOrder(), this.getDepth(), this.getPreviousMove());
+        Board newBoard = new Board();
+        newBoard.setFields(this.getBoard().getFields());
+        newBoard.setWidth(this.getBoard().getWidth());
+        newBoard.setHeight(this.getBoard().getHeight());
+        String newMovingOrder = new String(this.getMovingOrder());
+        int newDepth = this.getDepth();
+        char newPreviousMove = this.getPreviousMove();
+        return new State(newBoard, newMovingOrder, newDepth, newPreviousMove);
     }
 }

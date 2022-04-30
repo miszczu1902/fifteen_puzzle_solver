@@ -39,6 +39,17 @@ public class Board {
         return fields;
     }
 
+    public void setFields(int[][] fields) {
+        this.fields = fields;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
 
     public boolean move(Movement move) {
         for (int x = 0; x < width; x++) {
@@ -47,7 +58,6 @@ public class Board {
                     switch (move) {
                         case R:
                             if (y + 1 < height) {
-                                System.out.println(y + 1);
                                 int tmp = fields[x][y + 1];
                                 fields[x][y] = tmp;
                                 fields[x][y + 1] = 0;
