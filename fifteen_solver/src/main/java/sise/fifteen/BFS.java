@@ -1,82 +1,39 @@
 package sise.fifteen;
 
-public class BFS extends StrategyBlind {
-    public BFS(State state) {
-        super(state);
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class BFS {
+    private final Board board;
+
+
+    public BFS(Board b) {
+        this.board = b;
     }
 
-    @Override
-    public int getReachedDepth() {
-        return super.getReachedDepth();
-    }
+    public Board check(Board s, Movement[] movementStrategy) {
 
-    @Override
-    public void setReachedDepth(int reachedDepth) {
-        super.setReachedDepth(reachedDepth);
-    }
+        if (s.isOrdered(this.board)) {
+            return s;
+        }
+        Queue<Board> queue = new LinkedList<>();
+        queue.add(s);
 
-    @Override
-    public long getStartTime() {
-        return super.getStartTime();
-    }
+        while (!queue.isEmpty()) {
+            Board element = queue.poll();
+            for (int i = 0; i < movementStrategy.length; i++) {
 
-    @Override
-    public void setStartTime(long startTime) {
-        super.setStartTime(startTime);
-    }
+                if (element.canMove(this.board,movementStrategy[i])) {
+                    Board newBoard = new Board(this.board,element);
+                    newBoard.move(movementStrategy[i]);
+                    queue.add(newBoard);
+                }
+                if (element.isOrdered(this.board)) {
+                    return element;
+                }
+            }
+        }
 
-    @Override
-    public long getEndTime() {
-        return super.getEndTime();
-    }
-
-    @Override
-    public void setEndTime(long endTime) {
-        super.setEndTime(endTime);
-    }
-
-    @Override
-    public State getState() {
-        return super.getState();
-    }
-
-    @Override
-    public void setState(State state) {
-        super.setState(state);
-    }
-
-    @Override
-    public Board getBoard() {
-        return super.getBoard();
-    }
-
-    @Override
-    public void setBoard(Board board) {
-        super.setBoard(board);
-    }
-
-    @Override
-    public int getWidth() {
-        return super.getWidth();
-    }
-
-    @Override
-    public void setWidth(int width) {
-        super.setWidth(width);
-    }
-
-    @Override
-    public int getHeight() {
-        return super.getHeight();
-    }
-
-    @Override
-    public void setHeight(int height) {
-        super.setHeight(height);
-    }
-
-    @Override
-    public boolean check() {
-        return false;
+        return null;
     }
 }

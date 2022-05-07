@@ -1,14 +1,15 @@
 package sise.fifteen;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Board {
     private int[][] fields;
-    private int width;
-    private int height;
-
-    public Board() {
-    }
+    public int width;
+    public int height;
+    public String path = "";
+    public int xZeroCoordinate;
+    public int yZeroCoordinate;
 
     public Board(List<Integer> params) {
         this.width = params.get(0);
@@ -24,89 +25,128 @@ public class Board {
             }
         }
         this.fields = tmp;
+
+        findZero();
+
     }
 
 
-    public int getWidth() {
-        return width;
+    public Board(Board board,Board newBoard) {
+
+        fields = new int[board.getHeight()][board.getWidth()];
+        for (int i = 0; i < board.getHeight(); i++) {
+            fields[i] = Arrays.copyOf(newBoard.fields[i], board.getHeight());
+        }
+        xZeroCoordinate = newBoard.xZeroCoordinate;
+        yZeroCoordinate = newBoard.yZeroCoordinate;
+        path = newBoard.path;
+
     }
 
-    public int getHeight() {
-        return height;
-    }
 
     public int[][] getFields() {
         return fields;
     }
-
-    public void setFields(int[][] fields) {
-        this.fields = fields;
+    public int getWidth()
+    {
+        return  width;
+    }
+    public int getHeight()
+    {
+        return  height;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
+    public boolean canMove(Board board,Movement move) {
+        switch (move) {
+            case U:
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public boolean move(Movement move) {
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                if (fields[x][y] == 0) {
-                    switch (move) {
-                        case R:
-                            if (y + 1 < height) {
-                                int tmp = fields[x][y + 1];
-                                fields[x][y] = tmp;
-                                fields[x][y + 1] = 0;
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        case L:
-                            if (y - 1 >= 0) {
-                                int tmp = fields[x][y - 1];
-                                fields[x][y] = tmp;
-                                fields[x][y - 1] = 0;
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        case D:
-                            if (x + 1 < height) {
-                                int tmp = fields[x + 1][y];
-                                fields[x][y] = tmp;
-                                fields[x + 1][y] = 0;
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        case U:
-                            if (x - 1 >= 0) {
-                                int tmp = fields[x - 1][y];
-                                fields[x][y] = tmp;
-                                fields[x - 1][y] = 0;
-                                return true;
-                            } else {
-                                return false;
-                            }
-                    }
+                if (yZeroCoordinate != 0) {
+                    return true;
                 }
-            }
+                break;
+            case D:
+                if (yZeroCoordinate != board.getHeight() - 1) {
+                    return true;
+                }
+                break;
+            case L:
+                if (xZeroCoordinate != 0) {
+                    return true;
+                }
+                break;
+            case R:
+
+                if (xZeroCoordinate != board.getWidth() - 1) {
+                    return true;
+                }
+                break;
         }
         return false;
     }
 
-    public boolean isOrdered() {
+
+    public void move(Movement move) {
+        switch (move) {
+            case U:
+                swap(yZeroCoordinate, xZeroCoordinate, (yZeroCoordinate - 1), xZeroCoordinate);
+                path += "U";
+                break;
+            case D:
+                swap(yZeroCoordinate, xZeroCoordinate, (yZeroCoordinate + 1), xZeroCoordinate);
+                path += "D";
+                break;
+            case L:
+                swap(yZeroCoordinate, xZeroCoordinate, yZeroCoordinate, (xZeroCoordinate - 1));
+                path += "L";
+                break;
+            case R:
+                swap(yZeroCoordinate, xZeroCoordinate, yZeroCoordinate, (xZeroCoordinate + 1));
+                path += "R";
+                break;
+        }
+    }
+
+    private void swap(int y1, int x1, int y2, int x2) {
+        int tmp = getField(y1, x1);
+        setField(y1, x1, getField(y2, x2));
+        setField(y2, x2, tmp);
+        yZeroCoordinate = y2;
+        xZeroCoordinate = x2;
+    }
+
+    private void setField(int y, int x, int tile) {
+        fields[y][x] = tile;
+    }
+
+    private int getField(int y, int x) {
+        return fields[y][x];
+    }
+
+    private void findZero() {
+
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                if (fields[y][x] == 0) {
+                    yZeroCoordinate = y;
+                    xZeroCoordinate = x;
+                }
+            }
+        }
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+
+    public boolean isOrdered(Board board) {
 
         int expectedValue = 1;
-        for (int x = 0; x < width; x++) {
+        for (int x = 0; x < board.getWidth(); x++) {
 
-            for (int y = 0; y < height; y++) {
+            for (int y = 0; y < board.getHeight(); y++) {
 
-                if (x == width - 1 && y == height - 1) {
+                if (x == board.getWidth() - 1 && y == board.getHeight() - 1) {
                     if (fields[x][y] != 0) {
                         return false;
                     }
@@ -121,4 +161,3 @@ public class Board {
         return true;
     }
 }
-
