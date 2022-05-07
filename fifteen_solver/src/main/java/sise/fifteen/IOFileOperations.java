@@ -27,9 +27,18 @@ public class IOFileOperations implements AutoCloseable {
         return integers;
     }
 
-    public static void saveSolutionToFile(Path path) {
-
+    public static void saveToFile(String path, int content,String content2) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(String.valueOf(path)));
+        try {
+            bufferedWriter.write(content);
+            bufferedWriter.write(content2);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+
+
 
     @Override
     public void close() throws Exception {
