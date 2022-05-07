@@ -1,5 +1,6 @@
 package sise.fifteen;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -7,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         int[][] Solved = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 0}};
 
         // args[] - lista parametrow String
@@ -53,11 +54,9 @@ public class Main {
         System.out.println("Path length: " + solvedBoard.getPath().length());
         System.out.println("Path: " + solvedBoard.getPath());
         System.out.println("czas w milisekundach: " + ((timeStop - timeStart) / 1000000.0));
-        try {
-            IOFileOperations.saveToFile(currentDir.toAbsolutePath() + "/solutions/" + args[3], solvedBoard.getPath().length(), solvedBoard.getPath());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+            IOFileOperations.saveToFile(currentDir.toAbsolutePath() + "/solutions/"+args[3] , String.valueOf(solvedBoard.getPath().length()), solvedBoard.getPath());
+
     }
 
     private static Movement[] setStrategy(String operators) {

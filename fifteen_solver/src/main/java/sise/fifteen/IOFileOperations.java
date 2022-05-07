@@ -1,5 +1,7 @@
 package sise.fifteen;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,14 +29,13 @@ public class IOFileOperations implements AutoCloseable {
         return integers;
     }
 
-    public static void saveToFile(String path, int content,String content2) throws IOException {
+    public static void saveToFile(String path, String content,String content2) throws IOException {
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(String.valueOf(path)));
-        try {
             bufferedWriter.write(content);
+            bufferedWriter.write('\n');
             bufferedWriter.write(content2);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+            bufferedWriter.close();
+
     }
 
 
