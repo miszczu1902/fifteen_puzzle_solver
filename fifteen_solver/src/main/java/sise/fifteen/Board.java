@@ -31,7 +31,7 @@ public class Board {
     }
 
 
-    public Board(Board board,Board newBoard) {
+    public Board(Board board, Board newBoard) {
 
         fields = new int[board.getHeight()][board.getWidth()];
         for (int i = 0; i < board.getHeight(); i++) {
@@ -47,16 +47,16 @@ public class Board {
     public int[][] getFields() {
         return fields;
     }
-    public int getWidth()
-    {
-        return  width;
-    }
-    public int getHeight()
-    {
-        return  height;
+
+    public int getWidth() {
+        return width;
     }
 
-    public boolean canMove(Board board,Movement move) {
+    public int getHeight() {
+        return height;
+    }
+
+    public boolean canMove(Board board, Movement move) {
         switch (move) {
             case U:
 
@@ -159,5 +159,22 @@ public class Board {
             }
         }
         return true;
+    }
+
+    public static Movement[] setStrategy(String operators) {
+        Movement[] strategy = new Movement[4];
+
+        for (int i = 0; i < operators.length(); i++) {
+            char move = operators.charAt(i);
+
+            switch (move) {
+                case 'U' -> strategy[i] = Movement.U;
+                case 'D' -> strategy[i] = Movement.D;
+                case 'L' -> strategy[i] = Movement.L;
+                case 'R' -> strategy[i] = Movement.R;
+            }
+        }
+
+        return strategy;
     }
 }

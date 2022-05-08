@@ -3,6 +3,7 @@ package sise.fifteen;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -14,67 +15,50 @@ public class Main {
         // args[] - lista parametrow String
         // 0 - bfs, dfs, astr
         // 1 - jesli astr -> hamm, manh
-        //gdy dfs, bfs -> kroki LDUR itd.
         // 2 - zrodlowa plansza
         // 3 - rozwiazana plansza
         // 4 - statystki rozwiazania
 
         String method = args[0];
-        String heuristic;
-        Movement[] strategy;
-        String sourceBoardFilePath;
-        String solutionFilePath;
-        String statisticsFilePath;
+        String strategy = args[1];
+        String sourceBoardFilePath = args[2];
+        String solutionFilePath = args[3];
+        String statisticsFilePath = args[4];
+        //System.out.println(method);
+        //System.out.println(strategy);
+        //System.out.println(sourceBoardFilePath);
+        //System.out.println(solutionFilePath);
+        //System.out.println(statisticsFilePath);
 
-        if (Objects.equals(args[0], "bfs") || Objects.equals(args[0], "dfs")) {
-            strategy = setStrategy(args[1]);
-            sourceBoardFilePath = args[2];
-            solutionFilePath = args[3];
-            statisticsFilePath = args[4];
-        } else {
-            heuristic = args[1];
-            strategy = setStrategy(args[2]);
-            sourceBoardFilePath = args[3];
-            solutionFilePath = args[4];
-            statisticsFilePath = args[5];
-        }
+//        if (Objects.equals(args[0], "bfs") || Objects.equals(args[0], "dfs")) {
+//            strategy = setStrategy(args[1]);
+//            sourceBoardFilePath = args[2];
+//            solutionFilePath = args[3];
+//            statisticsFilePath = args[4];
+//        } else {
+//
+//        }
 
         Path currentDir = Paths.get("");
 //        List<Integer> integers = IOFileOperations.readFromFile(currentDir.toAbsolutePath() + "/boards/4x4_06_00011.txt");
-        List<Integer> integers = IOFileOperations.readFromFile(currentDir.toAbsolutePath() + "/boards/" + args[2]);
+        List<Integer> integers = IOFileOperations.readFromFile(currentDir.toAbsolutePath() + "/boards/" + sourceBoardFilePath);
         Board board = new Board(integers);
-        System.out.println(Arrays.deepToString(board.getFields()));
+        //System.out.println(Arrays.deepToString(board.getFields()));
         long timeStart;
         long timeStop;
         BFS bfs = new BFS(board);
 //        Movement[] strategy = new Movement[]{Movement.L, Movement.R, Movement.U, Movement.D};
         timeStart = System.nanoTime();
-        Board solvedBoard = bfs.check(board, strategy);
+        Board solvedBoard = bfs.check(board, Board.setStrategy(strategy));
         timeStop = System.nanoTime();
-        System.out.println("Path length: " + solvedBoard.getPath().length());
-        System.out.println("Path: " + solvedBoard.getPath());
-        System.out.println("czas w milisekundach: " + ((timeStop - timeStart) / 1000000.0));
-
-            IOFileOperations.saveToFile(currentDir.toAbsolutePath() + "/solutions/"+args[3] , String.valueOf(solvedBoard.getPath().length()), solvedBoard.getPath());
+        //System.out.println("Path length: " + solvedBoard.getPath().length());
+        //System.out.println("Path: " + solvedBoard.getPath());
+        //System.out.println("czas w milisekundach: " + ((timeStop - timeStart) / 1000000.0));
+        IOFileOperations.saveToFile( solutionFilePath, String.valueOf(solvedBoard.getPath().length()), solvedBoard.getPath());
+        IOFileOperations.saveToFile(statisticsFilePath, String.valueOf(solvedBoard.getPath().length()), solvedBoard.getPath());
 
     }
 
-    private static Movement[] setStrategy(String operators) {
-        Movement[] strategy = new Movement[4];
-
-        for (int i = 0; i < operators.length(); i++) {
-            char move = operators.charAt(i);
-
-            switch (move) {
-                case 'U' -> strategy[i] = Movement.U;
-                case 'D' -> strategy[i] = Movement.D;
-                case 'L' -> strategy[i] = Movement.L;
-                case 'R' -> strategy[i] = Movement.R;
-            }
-        }
-
-        return strategy;
-    }
 
 }
 

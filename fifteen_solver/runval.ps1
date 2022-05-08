@@ -18,7 +18,7 @@
 # actual program, using the absolute (or relative) path, for example:
 #  $Progcmd = 'java -jar C:\Users\User\15puzzle\bin\puzzleval.jar'
 
-$Progcmd = 'echo program'
+$Progcmd = 'D:\zulu8.60.0.21-ca-fx-jre8.0.322-win_x64\zulu8.60.0.21-ca-fx-jre8.0.322-win_x64\bin\java -jar puzzleval.jar'
 $SolFilenameRegex = '^[a-zA-Z0-9]+_[0-9]+_[0-9]+_[a-zA-Z]+_[a-zA-Z]+_sol.txt$'
 
 $NumCorrectSols = 0
