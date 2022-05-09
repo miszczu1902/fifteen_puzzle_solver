@@ -29,17 +29,20 @@ public class IOFileOperations implements AutoCloseable {
         return integers;
     }
 
-    public static void saveToFile(String path, String content,String content2) throws IOException {
+    public static void saveToFile(String path, String content, String content2) throws IOException {
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(String.valueOf(path)));
-            bufferedWriter.write(content);
-            bufferedWriter.write('\n');
-            bufferedWriter.write(content2);
-            bufferedWriter.close();
+        bufferedWriter.write(content);
+        bufferedWriter.write('\n');
+        bufferedWriter.write(content2);
+        bufferedWriter.close();
 
     }
 
-
-
+    public static void saveToFile(String path, String content) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(String.valueOf(path)));
+        bufferedWriter.write(content);
+        bufferedWriter.close();
+    }
 
     @Override
     public void close() throws Exception {

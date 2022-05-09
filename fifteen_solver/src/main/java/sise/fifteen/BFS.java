@@ -1,7 +1,6 @@
 package sise.fifteen;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class BFS {
     private final Board board;
@@ -13,24 +12,36 @@ public class BFS {
 
     public Board check(Board s, Movement[] movementStrategy) {
 
-        if (s.isOrdered(this.board)) {
+        if (s.isOrdered()) {
             return s;
         }
         Queue<Board> queue = new LinkedList<>();
+        HashSet<Board> T = new HashSet<>();
         queue.add(s);
 
         while (!queue.isEmpty()) {
-            Board element = queue.poll();
-            for (int i = 0; i < movementStrategy.length; i++) {
+            Board Velement = queue.poll();
+            T.add(Velement);
+            // w tym forze cos trzeba zmienic z tym wezlami
+            //for (int n = 0; n < movementStrategy.length; n++) {
+            List<Board> neighbours = Velement.neighbours(movementStrategy);
+            for (Board neighbour : neighbours)
+            {
+                if (!T.contains(neighbour) && !queue.contains(neighbour)) {
+                    if (neighbour.isOrdered()) {
+                        return neighbour;
+                    }
+                    queue.add(neighbour);
+                }
 
-                if (element.canMove(this.board,movementStrategy[i])) {
-                    Board newBoard = new Board(this.board,element);
-                    newBoard.move(movementStrategy[i]);
-                    queue.add(newBoard);
-                }
-                if (element.isOrdered(this.board)) {
-                    return element;
-                }
+//                if (Velement.canMove(this.board,movementStrategy[i])) {
+//                    Board newBoard = new Board(this.board,Velement);
+//                    newBoard.move(movementStrategy[i]);
+//                    queue.add(newBoard);
+//                }
+//                if (Velement.isOrdered(this.board)) {
+//                    return Velement;
+//                }
             }
         }
 
