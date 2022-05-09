@@ -16,7 +16,7 @@ public class BFS {
             return s;
         }
         Queue<Board> queue = new LinkedList<>();
-        HashSet<Board> T = new HashSet<>();
+        Set<Board> T = new HashSet<>();
         queue.add(s);
 
         while (!queue.isEmpty()) {
@@ -27,7 +27,8 @@ public class BFS {
             List<Board> neighbours = Velement.neighbours(movementStrategy);
             for (Board neighbour : neighbours)
             {
-                if (!T.contains(neighbour) && !queue.contains(neighbour)) {
+                System.out.println(Arrays.deepToString(neighbour.getFields()));
+//                if (!T.contains(neighbour) && !queue.contains(neighbour)) {
                     if (neighbour.isOrdered()) {
                         return neighbour;
                     }
@@ -43,8 +44,8 @@ public class BFS {
 //                    return Velement;
 //                }
             }
-        }
-
+//        }
+        System.out.println("Xd");
         return null;
     }
 }

@@ -3,6 +3,7 @@ package sise.fifteen;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
@@ -38,9 +39,11 @@ public class Main {
             System.out.println("czas w milisekundach: " + ((timeStop - timeStart) / 1000000.0));
             IOFileOperations.saveToFile( solutionFilePath, String.valueOf(solvedBoard.getPath().length()), solvedBoard.getPath());
             IOFileOperations.saveToFile(statisticsFilePath, String.valueOf(solvedBoard.getPath().length()), solvedBoard.getPath());
-        } else {
-            IOFileOperations.saveToFile( solutionFilePath, String.valueOf(-1), solvedBoard.getPath());
         }
+//        else
+//        {
+//            IOFileOperations.saveToFile( solutionFilePath, String.valueOf(-1), solvedBoard.getPath());
+//        }
 
 
     }

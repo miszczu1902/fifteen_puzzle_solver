@@ -6,11 +6,13 @@ import java.util.List;
 
 public class Board {
     private int[][] fields;
-    public int width;
-    public int height;
-    public String path = "";
-    public int xZeroCoordinate;
-    public int yZeroCoordinate;
+    private int width;
+    private int height;
+    private String path = "";
+    private int xZeroCoordinate;
+    private int yZeroCoordinate;
+    private Movement previousMove;
+
 
     public Board(List<Integer> params) {
         this.width = params.get(0);
@@ -63,30 +65,49 @@ public class Board {
         return height;
     }
 
+    public boolean isNotPreviousMove(Movement move) {
+        switch (move) {
+            case U:
+                if (previousMove == Movement.D) {
+                    return false;
+                }
+            case D:
+                if (previousMove == Movement.U) {
+                    return false;
+                }
+            case L:
+                if (previousMove == Movement.R) {
+                    return false;
+                }
+            case R:
+                if (previousMove == Movement.L) {
+                    return false;
+                }
+        }
+        return true;
+    }
+
+
     public boolean canMove(Movement move) {
         switch (move) {
             case U:
-                if (yZeroCoordinate > 0) {
-                    return true;
-                }
-                break;
-            case D:
-                if (yZeroCoordinate < height - 1) {
-                    return true;
-                }
-                break;
-            case L:
                 if (xZeroCoordinate > 0) {
                     return true;
                 }
-                break;
+            case D:
+                if (xZeroCoordinate < height - 1) {
+                    return true;
+                }
+            case L:
+                if (yZeroCoordinate > 0) {
+                    return true;
+                }
             case R:
-                if (xZeroCoordinate < width - 1) {
+                if (xZeroCoordinate < height - 1) {
 //                    System.out.println("Rka"+xZeroCoordinate);
 //                    System.out.println("Rka"+yZeroCoordinate);
                     return true;
                 }
-                break;
         }
         return false;
     }
@@ -94,38 +115,46 @@ public class Board {
 
     public void move(Movement move) {
         switch (move) {
-            case U:
+            case U -> {
 //                swap(yZeroCoordinate, xZeroCoordinate, (yZeroCoordinate - 1), xZeroCoordinate);
-                swap(xZeroCoordinate, yZeroCoordinate, xZeroCoordinate , (yZeroCoordinate - 1));
+                swap(xZeroCoordinate, yZeroCoordinate, xZeroCoordinate - 1, yZeroCoordinate);
                 path += "U";
-                break;
-            case D:
+                previousMove = Movement.U;
+            }
+            case D -> {
 //                swap(yZeroCoordinate, xZeroCoordinate, (yZeroCoordinate + 1), xZeroCoordinate);
-                swap(xZeroCoordinate, yZeroCoordinate, xZeroCoordinate , (yZeroCoordinate + 1));
+                swap(xZeroCoordinate, yZeroCoordinate, xZeroCoordinate + 1, yZeroCoordinate);
                 path += "D";
-                break;
-            case L:
+                previousMove = Movement.D;
+            }
+            case L -> {
 //                swap(yZeroCoordinate, xZeroCoordinate, yZeroCoordinate, (xZeroCoordinate - 1));
-                swap(xZeroCoordinate, yZeroCoordinate, (xZeroCoordinate - 1) , yZeroCoordinate);
+                swap(xZeroCoordinate, yZeroCoordinate, xZeroCoordinate, yZeroCoordinate - 1);
                 path += "L";
-                break;
-            case R:
+                previousMove = Movement.L;
+            }
+            case R -> {
 //                swap(yZeroCoordinate, xZeroCoordinate, yZeroCoordinate, (xZeroCoordinate + 1));
-                swap(xZeroCoordinate, yZeroCoordinate, (xZeroCoordinate + 1) , yZeroCoordinate);
+                swap(xZeroCoordinate, yZeroCoordinate, xZeroCoordinate, yZeroCoordinate + 1);
                 path += "R";
-                break;
+                previousMove = Movement.R;
+            }
         }
     }
 
     private void swap(int x1, int y1, int x2, int y2) {
-//        int tmp = getField(x1, y1);
-//        setField(x1, y1, getField(x2, y2));
-//        setField(x2, y2, tmp);
-        int tmp = fields[x1][y1];
-        fields[x1][y1] = fields[x2][y2];
-        fields[x2][y2] = tmp;
-        yZeroCoordinate = y2;
-        xZeroCoordinate = x2;
+        int tmp = getField(x1, y1);
+        setField(x1, y1, getField(x2, y2));
+        setField(x2, y2, tmp);
+//        System.out.println("X1y1");
+//        System.out.println(this .fields[x1][y1]);
+//        System.out.println("X2y2");
+//        System.out.println(fields[x2][y2]);
+//        int tmp = this.fields[x1][y1];
+//        this.fields[x1][y1] = this.fields[x2][y2];
+//        this.fields[x2][y2] = tmp;
+        this.yZeroCoordinate = y2;
+        this.xZeroCoordinate = x2;
     }
 
     private void setField(int x, int y, int tile) {
@@ -133,6 +162,7 @@ public class Board {
     }
 
     private int getField(int x, int y) {
+//        System.out.println(x + " " + y);
         return fields[x][y];
     }
 
@@ -195,14 +225,13 @@ public class Board {
         List<Board> neighbours = new ArrayList<>();
 
         for (int i = 0; i < movementStrategy.length; i++) {
-            System.out.println(Arrays.deepToString(this.getFields()));
-            System.out.println(this.canMove(movementStrategy[i]));
-            if (this.canMove(movementStrategy[i])) {
-                System.out.println(movementStrategy[i]);
-                Board newBoard = BoardFactory.getBoard(this.getFields(), this.getWidth(), this.getHeight());
-//                System.out.println(Arrays.deepToString(newBoard.getFields()));
-//                System.out.println(newBoard.getWidth());
-//                System.out.println(newBoard.getHeight());
+//            System.out.println(Arrays.deepToString(this.getFields()));
+//            System.out.println(this.canMove(movementStrategy[i]));
+            Board newBoard = BoardFactory.getBoard(this.getFields(), this.getWidth(), this.getHeight());
+            newBoard.previousMove = this.previousMove;
+
+            if (newBoard.canMove(movementStrategy[i]) && newBoard.isNotPreviousMove(movementStrategy[i])) {
+//                System.out.println(movementStrategy[i]);
                 newBoard.move(movementStrategy[i]);
                 neighbours.add(newBoard);
             }
