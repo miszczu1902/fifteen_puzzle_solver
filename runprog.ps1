@@ -23,7 +23,7 @@
 
 param([string]$strategy, [string]$param)
 
-$Progcmd = 'java -jar D:\sise\projekt\fifteen_solver\target\fifteen_solver-1.0.jar'
+$Progcmd = 'java -jar D:\sise\sise\fifteen_solver-1.0.jar'
 $Orders = @('RDUL', 'RDLU', 'DRUL', 'DRLU', 'LUDR',  'LURD', 'ULDR', 'ULRD')
 $Heuristics = @('hamm', 'manh')
 $InitFilenameRegex = '^[a-zA-Z0-9]+_[0-9]+_[0-9]+.txt$'

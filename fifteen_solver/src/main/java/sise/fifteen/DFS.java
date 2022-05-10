@@ -7,6 +7,7 @@ public class DFS {
     private final Board board;
     public int visitedStates;
     public int processedStates;
+    public int depth=0;
 
     public DFS(Board b) {
         this.board = b;
@@ -18,6 +19,11 @@ public class DFS {
 
     public int getProcessedStates() {
         return processedStates;
+    }
+
+    public int getHighestDepth()
+    {
+        return depth;
     }
 
     public Board check(Board s, Movement[] movesOrder) {
@@ -36,6 +42,11 @@ public class DFS {
                 continue;
             }
 
+            if(v.getDepth()>depth)
+            {
+                depth=v.getDepth();
+            }
+
             if (!T.contains(v))
             {
                 T.add(v);
@@ -45,7 +56,8 @@ public class DFS {
                 for (Board neighbour : neighbours) {
                     if (neighbour.isOrdered(this.board)) {
                         this.visitedStates = S.size() + T.size();
-                        this.processedStates = T.size();;
+                        this.processedStates = T.size();
+
                         return neighbour;
                     }
                     S.push(neighbour);

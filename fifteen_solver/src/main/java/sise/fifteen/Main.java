@@ -1,8 +1,12 @@
 package sise.fifteen;
 
+import org.apache.commons.math3.util.Precision;
+
 import java.io.IOException;
+import java.math.RoundingMode;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,12 +24,21 @@ public class Main {
         String sourceBoardFilePath = args[2];
         String solutionFilePath = args[3];
         String statisticsFilePath = args[4];
+        int processedStates=0;
+        int visitedStates=0;
+        double time=0;
+
+        int length = 0;
+        int depth=0;
+        String Path="";
+        Board solvedBoard;
 
 
         Path currentDir = Paths.get("");
         List<Integer> integers = IOFileOperations.readFromFile(currentDir.toAbsolutePath() + "/" + sourceBoardFilePath);
 
         Board board = new Board(integers);
+        final DecimalFormat df = new DecimalFormat("0.000");
         long timeStart;
         long timeStop;
         if (Objects.equals(strategy, "bfs")) {
@@ -35,10 +48,12 @@ public class Main {
             timeStop = System.nanoTime();
             processedStates=bfs.getProcessedStates();
             visitedStates=bfs.getVisitedStates();
-            time=Precision.round((timeStop - timeStart) / 1000000.0, 3);
+            time= Math.round((timeStop - timeStart) / 1000.0)/1000.0;
+            //time=(timeStop - timeStart) / 1000000.0;
             length = solvedBoard.getPath().length();
             Path=solvedBoard.getPath();
-            System.out.println(solvedBoard.getDepth());
+            depth=bfs.getHighestDepth();
+            //System.out.println(solvedBoard.getDepth());
 
 
         } else  {
@@ -48,10 +63,12 @@ public class Main {
             timeStop = System.nanoTime();
             processedStates=dfs.getProcessedStates();
             visitedStates=dfs.getVisitedStates();
-            time=Precision.round((timeStop - timeStart) / 1000000.0, 3);
+            time= Math.round((timeStop - timeStart) / 10000.0)/100.0;
+           // time=(timeStop - timeStart) / 1000000.0;
             length = solvedBoard.getPath().length();
             Path=solvedBoard.getPath();
-            System.out.println(solvedBoard.getDepth());
+            depth=dfs.getHighestDepth();
+            //System.out.println(solvedBoard.getDepth());
         }
 
 
@@ -60,9 +77,11 @@ public class Main {
 //        System.out.println("Path: " + solvedBoard.getPath());
 //        System.out.println("czas w milisekundach: " + ((timeStop - timeStart) / 1000000.0));
 
-        IOFileOperations.saveToFile( solutionFilePath, String.valueOf(solvedBoard.getPath().length()), solvedBoard.getPath());
-        IOFileOperations.saveToFileInformations(statisticsFilePath, String.valueOf(solvedBoard.getPath().length()),
-                String.valueOf(bfs.getProcessedStates()),String.valueOf(bfs.getVisitedStates()), String.valueOf(Precision.round((timeStop - timeStart) / 1000000.0, 3)));
+        IOFileOperations.saveToFile( solutionFilePath, String.valueOf(length), Path);
+        IOFileOperations.saveToFileInformations(statisticsFilePath, String.valueOf(length),String.valueOf(visitedStates),
+                String.valueOf(processedStates),String.valueOf(depth), String.valueOf(time));
+
+
 
     }
 
