@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -27,10 +28,33 @@ public class Main {
         Board board = new Board(integers);
         long timeStart;
         long timeStop;
-        BFS bfs = new BFS(board);
-        timeStart = System.nanoTime();
-        Board solvedBoard = bfs.check(board, Board.setOrder(order));
-        timeStop = System.nanoTime();
+        if (Objects.equals(strategy, "bfs")) {
+            timeStart = System.nanoTime();
+            BFS bfs = new BFS(board);
+            solvedBoard = bfs.check(board, Board.setOrder(order));
+            timeStop = System.nanoTime();
+            processedStates=bfs.getProcessedStates();
+            visitedStates=bfs.getVisitedStates();
+            time=Precision.round((timeStop - timeStart) / 1000000.0, 3);
+            length = solvedBoard.getPath().length();
+            Path=solvedBoard.getPath();
+            System.out.println(solvedBoard.getDepth());
+
+
+        } else  {
+            timeStart = System.nanoTime();
+            DFS dfs = new DFS(board);
+            solvedBoard = dfs.check(board, Board.setOrder(order));
+            timeStop = System.nanoTime();
+            processedStates=dfs.getProcessedStates();
+            visitedStates=dfs.getVisitedStates();
+            time=Precision.round((timeStop - timeStart) / 1000000.0, 3);
+            length = solvedBoard.getPath().length();
+            Path=solvedBoard.getPath();
+            System.out.println(solvedBoard.getDepth());
+        }
+
+
 
 //        System.out.println("Path length: " + solvedBoard.getPath().length());
 //        System.out.println("Path: " + solvedBoard.getPath());

@@ -1,6 +1,7 @@
 package sise.fifteen;
 
 import java.util.Arrays;
+
 import java.util.List;
 
 public class Board {
@@ -11,6 +12,8 @@ public class Board {
     private int xZeroCoordinate;
     private int yZeroCoordinate;
     private int depth = 0;
+
+    private int heuristicValue = 0;
 
     public Board(List<Integer> params) {
         this.width = params.get(0);
@@ -65,6 +68,14 @@ public class Board {
         this.depth = depth;
     }
 
+    public int getHeuristicValue() {
+        return heuristicValue;
+    }
+
+    public void setHeuristicValue(int heuristicValue) {
+        this.heuristicValue = heuristicValue;
+    }
+
     private int getField(int y, int x) {
         return fields[y][x];
     }
@@ -107,18 +118,22 @@ public class Board {
             case U -> {
                 swap(yZeroCoordinate, xZeroCoordinate, (yZeroCoordinate - 1), xZeroCoordinate);
                 path += "U";
+                depth++;
             }
             case D -> {
                 swap(yZeroCoordinate, xZeroCoordinate, (yZeroCoordinate + 1), xZeroCoordinate);
                 path += "D";
+                depth++;
             }
             case L -> {
                 swap(yZeroCoordinate, xZeroCoordinate, yZeroCoordinate, (xZeroCoordinate - 1));
                 path += "L";
+                depth++;
             }
             case R -> {
                 swap(yZeroCoordinate, xZeroCoordinate, yZeroCoordinate, (xZeroCoordinate + 1));
                 path += "R";
+                depth++;
             }
         }
     }

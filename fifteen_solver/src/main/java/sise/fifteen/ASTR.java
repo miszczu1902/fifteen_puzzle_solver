@@ -16,7 +16,7 @@ public class ASTR {
     }
     public int getProcessedStates() {return processedStates;}
 
-    public Board check(Board s, Movement[] movesOrder) {
+    public Board check(Board s, Movement[] movesOrder, String heuristic) {
 
         if (s.isOrdered(this.board)) {
             return s;
@@ -25,6 +25,22 @@ public class ASTR {
         PriorityQueue<Board> P = new PriorityQueue<>();
         Set<Board> T = new HashSet<>();
         P.add(s);
+
+        while (!P.isEmpty()) {
+            Board v = P.poll();
+            if (v.isOrdered(this.board)) {
+                return v;
+            }
+            T.add(v);
+            List<Board> neighbours = this.neighbours(movesOrder, v);
+
+            for (Board neighbour : neighbours) {
+                if (!T.contains(neighbour)) {
+                    // tu liczyc wartosc heurystyki
+                    neighbour.calculateHeuristic(heuristic);
+                }
+            }
+        }
 
         return null;
     }

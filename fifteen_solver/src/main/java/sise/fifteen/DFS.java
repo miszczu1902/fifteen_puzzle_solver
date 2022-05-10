@@ -2,12 +2,13 @@ package sise.fifteen;
 
 import java.util.*;
 
-public class BFS {
+public class DFS {
+    private final int maxDepth = 20;
     private final Board board;
     public int visitedStates;
     public int processedStates;
 
-    public BFS(Board b) {
+    public DFS(Board b) {
         this.board = b;
     }
 
@@ -25,31 +26,34 @@ public class BFS {
             return s;
         }
 
-        Queue<Board> Q = new LinkedList<>();
+        Stack<Board> S = new Stack<>();
         Set<Board> T = new HashSet<>();
+        S.push(s);
 
-        Q.add(s);
-        while (!Q.isEmpty()) {
-            Board v = Q.poll();
-            this.visitedStates++;
+        while (!S.isEmpty()) {
+            Board v = S.pop();
+            if (v.getDepth() > this.maxDepth) {
+                continue;
+            }
 
-            T.add(v);
-            List<Board> neighbours = this.neighbours(movesOrder, v);
+            if (!T.contains(v))
+            {
+                T.add(v);
+                List<Board> neighbours = this.neighbours(movesOrder, v);
+                Collections.reverse(neighbours);
 
-            for (Board neighbour : neighbours) {
-                if (!T.contains(neighbour) && !Q.contains(neighbour)) {
+                for (Board neighbour : neighbours) {
                     if (neighbour.isOrdered(this.board)) {
-                        this.visitedStates = Q.size();
-                        this.processedStates = T.size();
-                        System.out.println(Q.size());
-                        System.out.println(T.size());
-                        System.out.println(this.board.getDepth());
+                        this.visitedStates = S.size() + T.size();
+                        this.processedStates = T.size();;
                         return neighbour;
                     }
+                    S.push(neighbour);
+
                 }
-                Q.add(neighbour);
             }
         }
+
         return null;
     }
 
