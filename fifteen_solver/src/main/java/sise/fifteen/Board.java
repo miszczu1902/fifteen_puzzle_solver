@@ -5,11 +5,12 @@ import java.util.List;
 
 public class Board {
     private int[][] fields;
-    public int width;
-    public int height;
-    public String path = "";
-    public int xZeroCoordinate;
-    public int yZeroCoordinate;
+    private int width;
+    private int height;
+    private String path = "";
+    private int xZeroCoordinate;
+    private int yZeroCoordinate;
+    private int depth = 0;
 
     public Board(List<Integer> params) {
         this.width = params.get(0);
@@ -24,28 +25,24 @@ public class Board {
                 index++;
             }
         }
-        this.fields = tmp;
 
+        this.fields = tmp;
         findZero();
 
     }
 
-
     public Board(Board board, Board newBoard) {
-
         fields = new int[board.getHeight()][board.getWidth()];
+
         for (int i = 0; i < board.getHeight(); i++) {
             fields[i] = Arrays.copyOf(newBoard.fields[i], board.getHeight());
         }
+
         xZeroCoordinate = newBoard.xZeroCoordinate;
         yZeroCoordinate = newBoard.yZeroCoordinate;
         path = newBoard.path;
+        depth = newBoard.depth;
 
-    }
-
-
-    public int[][] getFields() {
-        return fields;
     }
 
     public int getWidth() {
@@ -54,6 +51,26 @@ public class Board {
 
     public int getHeight() {
         return height;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public void setDepth(int depth) {
+        this.depth = depth;
+    }
+
+    private int getField(int y, int x) {
+        return fields[y][x];
+    }
+
+    private void setField(int y, int x, int tile) {
+        fields[y][x] = tile;
     }
 
     public boolean canMove(Board board, Movement move) {
@@ -87,43 +104,35 @@ public class Board {
 
     public void move(Movement move) {
         switch (move) {
-            case U:
+            case U -> {
                 swap(yZeroCoordinate, xZeroCoordinate, (yZeroCoordinate - 1), xZeroCoordinate);
                 path += "U";
-                break;
-            case D:
+            }
+            case D -> {
                 swap(yZeroCoordinate, xZeroCoordinate, (yZeroCoordinate + 1), xZeroCoordinate);
                 path += "D";
-                break;
-            case L:
+            }
+            case L -> {
                 swap(yZeroCoordinate, xZeroCoordinate, yZeroCoordinate, (xZeroCoordinate - 1));
                 path += "L";
-                break;
-            case R:
+            }
+            case R -> {
                 swap(yZeroCoordinate, xZeroCoordinate, yZeroCoordinate, (xZeroCoordinate + 1));
                 path += "R";
-                break;
+            }
         }
     }
 
     private void swap(int y1, int x1, int y2, int x2) {
         int tmp = getField(y1, x1);
+
         setField(y1, x1, getField(y2, x2));
         setField(y2, x2, tmp);
         yZeroCoordinate = y2;
         xZeroCoordinate = x2;
     }
 
-    private void setField(int y, int x, int tile) {
-        fields[y][x] = tile;
-    }
-
-    private int getField(int y, int x) {
-        return fields[y][x];
-    }
-
     private void findZero() {
-
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 if (fields[y][x] == 0) {
@@ -134,14 +143,9 @@ public class Board {
         }
     }
 
-    public String getPath() {
-        return path;
-    }
-
-
     public boolean isOrdered(Board board) {
-
         int expectedValue = 1;
+
         for (int x = 0; x < board.getWidth(); x++) {
 
             for (int y = 0; y < board.getHeight(); y++) {
@@ -158,10 +162,11 @@ public class Board {
                 expectedValue++;
             }
         }
+
         return true;
     }
 
-    public static Movement[] setStrategy(String operators) {
+    public static Movement[] setOrder(String operators) {
         Movement[] strategy = new Movement[4];
 
         for (int i = 0; i < operators.length(); i++) {
