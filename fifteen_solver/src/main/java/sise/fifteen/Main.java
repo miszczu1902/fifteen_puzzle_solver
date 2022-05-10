@@ -3,11 +3,15 @@ package sise.fifteen;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+        int[][] Solved = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 0}};
+
         // args[] - lista parametrow String
         // 0 - bfs, dfs, astr
         // 1 - jesli astr -> hamm, manh
@@ -20,10 +24,24 @@ public class Main {
         String sourceBoardFilePath = args[2];
         String solutionFilePath = args[3];
         String statisticsFilePath = args[4];
+        //System.out.println(method);
+        //System.out.println(strategy);
+        //System.out.println(sourceBoardFilePath);
+        //System.out.println(solutionFilePath);
+        //System.out.println(statisticsFilePath);
+
+//        if (Objects.equals(args[0], "bfs") || Objects.equals(args[0], "dfs")) {
+//            strategy = setStrategy(args[1]);
+//            sourceBoardFilePath = args[2];
+//            solutionFilePath = args[3];
+//            statisticsFilePath = args[4];
+//        } else {
+//
+//        }
 
         Path currentDir = Paths.get("");
 //        List<Integer> integers = IOFileOperations.readFromFile(currentDir.toAbsolutePath() + "/boards/4x4_06_00011.txt");
-        List<Integer> integers = IOFileOperations.readFromFile(currentDir.toAbsolutePath() + "/"+ sourceBoardFilePath);
+        List<Integer> integers = IOFileOperations.readFromFile(currentDir.toAbsolutePath() + "/" + sourceBoardFilePath);
         Board board = new Board(integers);
         //System.out.println(Arrays.deepToString(board.getFields()));
         long timeStart;
@@ -33,18 +51,11 @@ public class Main {
         timeStart = System.nanoTime();
         Board solvedBoard = bfs.check(board, Board.setStrategy(strategy));
         timeStop = System.nanoTime();
-        if (solvedBoard != null) {
-            System.out.println("Path length: " + solvedBoard.getPath().length());
-            System.out.println("Path: " + solvedBoard.getPath());
-            System.out.println("czas w milisekundach: " + ((timeStop - timeStart) / 1000000.0));
-            IOFileOperations.saveToFile( solutionFilePath, String.valueOf(solvedBoard.getPath().length()), solvedBoard.getPath());
-            IOFileOperations.saveToFile(statisticsFilePath, String.valueOf(solvedBoard.getPath().length()), solvedBoard.getPath());
-        }
-//        else
-//        {
-//            IOFileOperations.saveToFile( solutionFilePath, String.valueOf(-1), solvedBoard.getPath());
-//        }
-
+        System.out.println("Path length: " + solvedBoard.getPath().length());
+        System.out.println("Path: " + solvedBoard.getPath());
+        System.out.println("czas w milisekundach: " + ((timeStop - timeStart) / 1000000.0));
+        IOFileOperations.saveToFile( solutionFilePath, String.valueOf(solvedBoard.getPath().length()), solvedBoard.getPath());
+        IOFileOperations.saveToFile(statisticsFilePath, String.valueOf(solvedBoard.getPath().length()), solvedBoard.getPath());
 
     }
 
