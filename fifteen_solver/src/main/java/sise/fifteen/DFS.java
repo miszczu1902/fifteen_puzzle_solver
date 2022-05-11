@@ -7,7 +7,7 @@ public class DFS {
     private final Board board;
     public int visitedStates;
     public int processedStates;
-    public int depth=0;
+    public int depth = 0;
 
     public DFS(Board b) {
         this.board = b;
@@ -21,8 +21,7 @@ public class DFS {
         return processedStates;
     }
 
-    public int getHighestDepth()
-    {
+    public int getHighestDepth() {
         return depth;
     }
 
@@ -42,13 +41,11 @@ public class DFS {
                 continue;
             }
 
-            if(v.getDepth()>depth)
-            {
-                depth=v.getDepth();
+            if (v.getDepth() > depth) {
+                depth = v.getDepth();
             }
 
-            if (!T.contains(v))
-            {
+            if (!T.contains(v)) {
                 T.add(v);
                 List<Board> neighbours = this.neighbours(movesOrder, v);
                 Collections.reverse(neighbours);

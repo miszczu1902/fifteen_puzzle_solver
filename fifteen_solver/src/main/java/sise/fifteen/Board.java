@@ -3,15 +3,16 @@ package sise.fifteen;
 import java.util.Arrays;
 
 import java.util.List;
+import java.util.Objects;
 
-public class Board {
+public class Board implements Comparable<Board> {
     private int[][] fields;
     private int width;
     private int height;
     private String path = "";
     private int xZeroCoordinate;
     private int yZeroCoordinate;
-    public int depth ;
+    public int depth;
 
     private int heuristicValue = 0;
 
@@ -116,8 +117,6 @@ public class Board {
 
 
     public void move(Movement move) {
-
-
         switch (move) {
             case U -> {
                 depth++;
@@ -130,7 +129,6 @@ public class Board {
                 depth++;
                 swap(yZeroCoordinate, xZeroCoordinate, (yZeroCoordinate + 1), xZeroCoordinate);
                 path += "D";
-
 
 
             }
@@ -209,5 +207,34 @@ public class Board {
         }
 
         return strategy;
+    }
+
+    public void calculateHeuristic(String heuristic, int depth) {
+        int value = 0;
+
+        if (Objects.equals(heuristic, "hamm")) {
+            int expectedValue = 1;
+            for (int x = 0; x < this.getWidth(); x++) {
+                for (int y = 0; y < this.getHeight(); y++) {
+                        if (fields[x][y] != expectedValue) {
+                            value++;
+                        }
+                    expectedValue++;
+                }
+            }
+
+        }
+        this.heuristicValue = value + depth;
+    }
+
+    @Override
+    public int compareTo(Board o) {
+        if (this.getHeuristicValue() > o.getHeuristicValue()) {
+            return 1;
+        } else if (this.getHeuristicValue() == o.getHeuristicValue()) {
+            return 0;
+        } else {
+            return -1;
+        }
     }
 }
