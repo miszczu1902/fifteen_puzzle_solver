@@ -237,4 +237,29 @@ public class Board implements Comparable<Board> {
             return -1;
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Board board = (Board) o;
+
+        return new org.apache.commons.lang3.builder.EqualsBuilder().append(width, board.width)
+                .append(height, board.height).append(xZeroCoordinate, board.xZeroCoordinate)
+                .append(yZeroCoordinate, board.yZeroCoordinate).append(fields, board.fields)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new org.apache.commons.lang3.builder.HashCodeBuilder(17, 37).append(fields)
+                .append(width)
+                .append(height).append(xZeroCoordinate).append(yZeroCoordinate).toHashCode();
+    }
 }

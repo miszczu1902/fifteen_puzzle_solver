@@ -73,7 +73,7 @@ public class Main {
         } else {
             timeStart = System.nanoTime();
             ASTR astr = new ASTR(board);
-            solvedBoard = astr.check(board, Board.setOrder("LURD"), order);
+            solvedBoard = astr.check(board, Board.setOrder("LRUD"), order);
             timeStop = System.nanoTime();
             processedStates = astr.getProcessedStates();
             visitedStates = astr.getVisitedStates();

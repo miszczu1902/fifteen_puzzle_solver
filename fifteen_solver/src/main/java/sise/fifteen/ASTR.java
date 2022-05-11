@@ -48,8 +48,8 @@ public class ASTR {
                 if (!T.contains(neighbour)) {
                     neighbour.calculateHeuristic(heuristic, neighbour.getDepth());
                     this.heuristicValue = neighbour.getHeuristicValue();
-                    System.out.println(this.heuristicValue);
-                    System.out.println(neighbour.getDepth());
+//                    System.out.println(this.heuristicValue);
+//                    System.out.println(neighbour.getDepth());
                     // tu liczyc wartosc heurystyki
                     if (!P.contains(neighbour)) {
                         P.add(neighbour);
