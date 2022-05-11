@@ -6,7 +6,6 @@ public class BFS {
     private final Board board;
     public int visitedStates;
     public int processedStates;
-    public int depth=0;
     public BFS(Board b) {
         this.board = b;
     }
@@ -17,10 +16,6 @@ public class BFS {
 
     public int getProcessedStates() {
         return processedStates;
-    }
-    public int getHighestDepth()
-    {
-        return depth;
     }
     public Board check(Board s, Movement[] movesOrder) {
 
@@ -36,10 +31,8 @@ public class BFS {
 
             Board v = Q.poll();
             this.visitedStates++;
-        if(v.getDepth()>depth)
-        {
-            depth=v.getDepth();
-        }
+
+
             T.add(v);
             List<Board> neighbours = this.neighbours(movesOrder, v);
 

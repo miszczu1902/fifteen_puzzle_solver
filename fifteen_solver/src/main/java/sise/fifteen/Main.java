@@ -52,7 +52,7 @@ public class Main {
             //time=(timeStop - timeStart) / 1000000.0;
             length = solvedBoard.getPath().length();
             Path=solvedBoard.getPath();
-            depth=bfs.getHighestDepth();
+            depth=solvedBoard.getDepth();
             //System.out.println(solvedBoard.getDepth());
 
 
@@ -63,7 +63,7 @@ public class Main {
             timeStop = System.nanoTime();
             processedStates=dfs.getProcessedStates();
             visitedStates=dfs.getVisitedStates();
-            time= Math.round((timeStop - timeStart) / 10000.0)/100.0;
+            time= Math.round((timeStop - timeStart) / 1000.0)/1000.0;
            // time=(timeStop - timeStart) / 1000000.0;
             length = solvedBoard.getPath().length();
             Path=solvedBoard.getPath();

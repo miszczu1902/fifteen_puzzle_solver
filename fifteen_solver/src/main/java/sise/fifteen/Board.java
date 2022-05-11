@@ -11,7 +11,7 @@ public class Board {
     private String path = "";
     private int xZeroCoordinate;
     private int yZeroCoordinate;
-    private int depth = 0;
+    public int depth ;
 
     private int heuristicValue = 0;
 
@@ -65,7 +65,7 @@ public class Board {
     }
 
     public void setDepth(int depth) {
-        this.depth = depth;
+        this.depth = depth++;
     }
 
     public int getHeuristicValue() {
@@ -94,6 +94,7 @@ public class Board {
                 break;
             case D:
                 if (yZeroCoordinate != board.getHeight() - 1) {
+
                     return true;
                 }
                 break;
@@ -105,6 +106,7 @@ public class Board {
             case R:
 
                 if (xZeroCoordinate != board.getWidth() - 1) {
+
                     return true;
                 }
                 break;
@@ -114,26 +116,37 @@ public class Board {
 
 
     public void move(Movement move) {
+
+
         switch (move) {
             case U -> {
+                depth++;
                 swap(yZeroCoordinate, xZeroCoordinate, (yZeroCoordinate - 1), xZeroCoordinate);
                 path += "U";
-                depth++;
+
+
             }
             case D -> {
+                depth++;
                 swap(yZeroCoordinate, xZeroCoordinate, (yZeroCoordinate + 1), xZeroCoordinate);
                 path += "D";
-                depth++;
+
+
+
             }
             case L -> {
+                depth++;
                 swap(yZeroCoordinate, xZeroCoordinate, yZeroCoordinate, (xZeroCoordinate - 1));
                 path += "L";
-                depth++;
+
+
             }
             case R -> {
+                depth++;
                 swap(yZeroCoordinate, xZeroCoordinate, yZeroCoordinate, (xZeroCoordinate + 1));
                 path += "R";
-                depth++;
+
+
             }
         }
     }
