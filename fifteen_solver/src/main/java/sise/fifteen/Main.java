@@ -66,9 +66,17 @@ public class Main {
             visitedStates = dfs.getVisitedStates();
             time = Math.round((timeStop - timeStart) / 1000.0) / 1000.0;
             // time=(timeStop - timeStart) / 1000000.0;
-            length = solvedBoard.getPath().length();
-            Path = solvedBoard.getPath();
-            depth = solvedBoard.getDepth();
+            if (solvedBoard == null) {
+                System.out.println("xd");
+                length =  -1;
+                Path = "";
+                depth = dfs.getHighestDepth();
+            } else {
+                length = solvedBoard.getPath().length();
+                Path = solvedBoard.getPath();
+                depth = solvedBoard.getDepth();
+            }
+
             //System.out.println(solvedBoard.getDepth());
         } else {
             timeStart = System.nanoTime();
@@ -90,10 +98,12 @@ public class Main {
 //        System.out.println("Path: " + solvedBoard.getPath());
 //        System.out.println("czas w milisekundach: " + ((timeStop - timeStart) / 1000000.0));
 
-        IOFileOperations.saveToFile(solutionFilePath, String.valueOf(length), Path);
-        IOFileOperations.saveToFileInformations(statisticsFilePath, String.valueOf(length),
-                String.valueOf(visitedStates),
-                String.valueOf(processedStates), String.valueOf(depth), String.valueOf(time));
+            IOFileOperations.saveToFile(solutionFilePath, String.valueOf(length), Path);
+            IOFileOperations.saveToFileInformations(statisticsFilePath, String.valueOf(length),
+                    String.valueOf(visitedStates),
+                    String.valueOf(processedStates), String.valueOf(depth), String.valueOf(time));
+
+
 
 
     }

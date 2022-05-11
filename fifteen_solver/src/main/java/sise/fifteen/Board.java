@@ -10,6 +10,7 @@ public class Board implements Comparable<Board> {
     private int width;
     private int height;
     private String path = "";
+    private Movement previousMove;
     private int xZeroCoordinate;
     private int yZeroCoordinate;
     public int depth;
@@ -46,7 +47,6 @@ public class Board implements Comparable<Board> {
         yZeroCoordinate = newBoard.yZeroCoordinate;
         path = newBoard.path;
         depth = newBoard.depth;
-
     }
 
     public int getWidth() {
@@ -85,17 +85,44 @@ public class Board implements Comparable<Board> {
         fields[y][x] = tile;
     }
 
-    public boolean canMove(Board board, Movement move) {
+    private boolean ifCanMove(Movement move) {
         switch (move) {
             case U:
+                if (previousMove == Movement.D) {
+                    return false;
+                }
+                break;
+            case D:
+                if (previousMove == Movement.U) {
+                    return false;
+                }
+                break;
+            case L:
+                if (previousMove == Movement.R) {
+                    return false;
+                }
+                break;
+            case R:
+                if (previousMove == Movement.L) {
+                    return false;
+                }
+                break;
+        }
+        return true;
+    }
 
+    public boolean canMove(Board board, Movement move) {
+        if (!this.ifCanMove(move)) {
+            return false;
+        }
+        switch (move) {
+            case U:
                 if (yZeroCoordinate != 0) {
                     return true;
                 }
                 break;
             case D:
                 if (yZeroCoordinate != board.getHeight() - 1) {
-
                     return true;
                 }
                 break;
@@ -105,9 +132,7 @@ public class Board implements Comparable<Board> {
                 }
                 break;
             case R:
-
                 if (xZeroCoordinate != board.getWidth() - 1) {
-
                     return true;
                 }
                 break;
@@ -115,13 +140,13 @@ public class Board implements Comparable<Board> {
         return false;
     }
 
-
     public void move(Movement move) {
         switch (move) {
             case U -> {
                 depth++;
                 swap(yZeroCoordinate, xZeroCoordinate, (yZeroCoordinate - 1), xZeroCoordinate);
                 path += "U";
+                previousMove = Movement.U;
 
 
             }
@@ -129,6 +154,7 @@ public class Board implements Comparable<Board> {
                 depth++;
                 swap(yZeroCoordinate, xZeroCoordinate, (yZeroCoordinate + 1), xZeroCoordinate);
                 path += "D";
+                previousMove = Movement.D;
 
 
             }
@@ -136,6 +162,7 @@ public class Board implements Comparable<Board> {
                 depth++;
                 swap(yZeroCoordinate, xZeroCoordinate, yZeroCoordinate, (xZeroCoordinate - 1));
                 path += "L";
+                previousMove = Movement.L;
 
 
             }
@@ -143,6 +170,7 @@ public class Board implements Comparable<Board> {
                 depth++;
                 swap(yZeroCoordinate, xZeroCoordinate, yZeroCoordinate, (xZeroCoordinate + 1));
                 path += "R";
+                previousMove = Movement.R;
 
 
             }
@@ -243,23 +271,17 @@ public class Board implements Comparable<Board> {
         if (this == o) {
             return true;
         }
-
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
         Board board = (Board) o;
 
-        return new org.apache.commons.lang3.builder.EqualsBuilder().append(width, board.width)
-                .append(height, board.height).append(xZeroCoordinate, board.xZeroCoordinate)
-                .append(yZeroCoordinate, board.yZeroCoordinate).append(fields, board.fields)
-                .isEquals();
+        return Arrays.deepEquals(fields, board.fields);
     }
 
     @Override
     public int hashCode() {
-        return new org.apache.commons.lang3.builder.HashCodeBuilder(17, 37).append(fields)
-                .append(width)
-                .append(height).append(xZeroCoordinate).append(yZeroCoordinate).toHashCode();
+        return Arrays.deepHashCode(fields);
     }
 }

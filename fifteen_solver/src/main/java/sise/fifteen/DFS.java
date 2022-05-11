@@ -5,9 +5,10 @@ import java.util.*;
 public class DFS {
     private final int maxDepth = 20;
     private final Board board;
-    public int visitedStates;
-    public int processedStates;
-    public int depth = 0;
+    private int visitedStates;
+    private int processedStates;
+    private int depth = 0;
+    private String path = "";
 
     public DFS(Board b) {
         this.board = b;
@@ -23,6 +24,10 @@ public class DFS {
 
     public int getHighestDepth() {
         return depth;
+    }
+
+    public String getPath() {
+        return path;
     }
 
     public Board check(Board s, Movement[] movesOrder) {
@@ -41,8 +46,8 @@ public class DFS {
                 continue;
             }
 
-            if (v.getDepth() > depth) {
-                depth = v.getDepth();
+            if (v.getDepth() > this.depth) {
+                this.depth = v.getDepth();
             }
 
             if (!T.contains(v)) {
@@ -58,6 +63,7 @@ public class DFS {
                         return neighbour;
                     }
                     S.push(neighbour);
+                    this.path = neighbour.getPath();
 
                 }
             }
