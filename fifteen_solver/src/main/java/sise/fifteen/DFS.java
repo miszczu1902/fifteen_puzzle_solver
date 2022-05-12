@@ -26,10 +26,6 @@ public class DFS {
         return depth;
     }
 
-    public String getPath() {
-        return path;
-    }
-
     public Board check(Board s, Movement[] movesOrder) {
 
         if (s.isOrdered(this.board)) {

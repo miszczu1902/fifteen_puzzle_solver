@@ -65,10 +65,6 @@ public class Board implements Comparable<Board> {
         return depth;
     }
 
-    public void setDepth(int depth) {
-        this.depth = depth++;
-    }
-
     public int getHeuristicValue() {
         return heuristicValue;
     }
@@ -147,39 +143,30 @@ public class Board implements Comparable<Board> {
                 swap(yZeroCoordinate, xZeroCoordinate, (yZeroCoordinate - 1), xZeroCoordinate);
                 path += "U";
                 previousMove = Movement.U;
-
-
             }
             case D -> {
                 depth++;
                 swap(yZeroCoordinate, xZeroCoordinate, (yZeroCoordinate + 1), xZeroCoordinate);
                 path += "D";
                 previousMove = Movement.D;
-
-
             }
             case L -> {
                 depth++;
                 swap(yZeroCoordinate, xZeroCoordinate, yZeroCoordinate, (xZeroCoordinate - 1));
                 path += "L";
                 previousMove = Movement.L;
-
-
             }
             case R -> {
                 depth++;
                 swap(yZeroCoordinate, xZeroCoordinate, yZeroCoordinate, (xZeroCoordinate + 1));
                 path += "R";
                 previousMove = Movement.R;
-
-
             }
         }
     }
 
     private void swap(int y1, int x1, int y2, int x2) {
         int tmp = getField(y1, x1);
-
         setField(y1, x1, getField(y2, x2));
         setField(y2, x2, tmp);
         yZeroCoordinate = y2;
@@ -187,8 +174,8 @@ public class Board implements Comparable<Board> {
     }
 
     private void findZero() {
-        for (int y = 0; y < height; ++y) {
-            for (int x = 0; x < width; ++x) {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 if (fields[y][x] == 0) {
                     yZeroCoordinate = y;
                     xZeroCoordinate = x;
@@ -199,11 +186,8 @@ public class Board implements Comparable<Board> {
 
     public boolean isOrdered(Board board) {
         int expectedValue = 1;
-
         for (int x = 0; x < board.getWidth(); x++) {
-
             for (int y = 0; y < board.getHeight(); y++) {
-
                 if (x == board.getWidth() - 1 && y == board.getHeight() - 1) {
                     if (fields[x][y] != 0) {
                         return false;
@@ -216,16 +200,13 @@ public class Board implements Comparable<Board> {
                 expectedValue++;
             }
         }
-
         return true;
     }
 
     public static Movement[] setOrder(String operators) {
         Movement[] strategy = new Movement[4];
-
         for (int i = 0; i < operators.length(); i++) {
             char move = operators.charAt(i);
-
             switch (move) {
                 case 'U' -> strategy[i] = Movement.U;
                 case 'D' -> strategy[i] = Movement.D;
@@ -233,12 +214,10 @@ public class Board implements Comparable<Board> {
                 case 'R' -> strategy[i] = Movement.R;
             }
         }
-
         return strategy;
     }
 
-    public void calculateHeuristic(Board board,String heuristic, int depth) {
-
+    public void calculateHeuristic(Board board, String heuristic, int depth) {
         int value = 0;
         if (Objects.equals(heuristic, "hamm")) {
             int expectedValue = 1;
@@ -251,15 +230,11 @@ public class Board implements Comparable<Board> {
                     expectedValue++;
                 }
             }
-
-        }
-        else if (Objects.equals(heuristic, "manh"))
-        {
+        } else if (Objects.equals(heuristic, "manh")) {
             for (int x = 0; x < board.getWidth(); x++) {
                 for (int y = 0; y < board.getHeight(); y++) {
                     int expectedvalue = fields[x][y];
-                    if (expectedvalue != 0)
-                    {
+                    if (expectedvalue != 0) {
                         expectedvalue--;
                         int X = expectedvalue / board.getHeight();
                         int Y = expectedvalue % board.getWidth();

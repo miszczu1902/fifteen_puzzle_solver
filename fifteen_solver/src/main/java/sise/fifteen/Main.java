@@ -1,13 +1,9 @@
 package sise.fifteen;
 
-import org.apache.commons.math3.util.Precision;
 
 import java.io.IOException;
-import java.math.RoundingMode;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,43 +21,33 @@ public class Main {
         String sourceBoardFilePath = args[2];
         String solutionFilePath = args[3];
         String statisticsFilePath = args[4];
-        int processedStates = 0;
-        int visitedStates = 0;
-        double time = 0;
-
-        int length = 0;
-        int length2 = 0;
-        int depth = 0;
+        int processedStates;
+        int visitedStates;
+        double time;
+        int length;
+        int depth;
         String Path = "";
         Board solvedBoard;
-
 
         Path currentDir = Paths.get("");
         List<Integer> integers = IOFileOperations.readFromFile(
                 currentDir.toAbsolutePath() + "/" + sourceBoardFilePath);
 
         Board board = new Board(integers);
-        final DecimalFormat df = new DecimalFormat("0.000");
         long timeStart;
         long timeStop;
+
         if (Objects.equals(strategy, "bfs")) {
             timeStart = System.nanoTime();
             BFS bfs = new BFS(board);
-
             solvedBoard = bfs.check(board, Board.setOrder(order));
             timeStop = System.nanoTime();
             processedStates = bfs.getProcessedStates();
             visitedStates = bfs.getVisitedStates();
             time = Math.round((timeStop - timeStart) / 1000.0) / 1000.0;
-            //time=(timeStop - timeStart) / 1000000.0;
             length = solvedBoard.getPath().length();
-            length2 = solvedBoard.getPath().length();
-
             Path = solvedBoard.getPath();
             depth = solvedBoard.getDepth();
-            //System.out.println(solvedBoard.getDepth());
-
-
         } else if (Objects.equals(strategy, "dfs")) {
             timeStart = System.nanoTime();
             DFS dfs = new DFS(board);
@@ -70,10 +56,8 @@ public class Main {
             processedStates = dfs.getProcessedStates();
             visitedStates = dfs.getVisitedStates();
             time = Math.round((timeStop - timeStart) / 1000.0) / 1000.0;
-            // time=(timeStop - timeStart) / 1000000.0;
             if (solvedBoard == null) {
-                //System.out.println("xd");
-                length=-1;
+                length = -1;
                 depth = dfs.getHighestDepth();
             } else {
                 length = solvedBoard.getPath().length();
@@ -81,7 +65,6 @@ public class Main {
                 depth = solvedBoard.getDepth();
             }
 
-            //System.out.println(solvedBoard.getDepth());
         } else {
             timeStart = System.nanoTime();
             ASTR astr = new ASTR(board);
@@ -90,27 +73,13 @@ public class Main {
             processedStates = astr.getProcessedStates();
             visitedStates = astr.getVisitedStates();
             time = Math.round((timeStop - timeStart) / 1000.0) / 1000.0;
-            // time=(timeStop - timeStart) / 1000000.0;
             length = solvedBoard.getPath().length();
             Path = solvedBoard.getPath();
             depth = solvedBoard.getDepth();
-            //System.out.println(solvedBoard.getDepth());
         }
-
-
-//        System.out.println("Path length: " + solvedBoard.getPath().length());
-//        System.out.println("Path: " + solvedBoard.getPath());
-//        System.out.println("czas w milisekundach: " + ((timeStop - timeStart) / 1000000.0));
-
-            IOFileOperations.saveToFile(solutionFilePath, String.valueOf(length), Path);
-            IOFileOperations.saveToFileInformations(statisticsFilePath, String.valueOf(length),
-                    String.valueOf(visitedStates),
-                    String.valueOf(processedStates), String.valueOf(depth), String.valueOf(time));
-
-
-
-
+        IOFileOperations.saveToFile(solutionFilePath, String.valueOf(length), Path);
+        IOFileOperations.saveToFileInformations(statisticsFilePath, String.valueOf(length),
+                String.valueOf(visitedStates),
+                String.valueOf(processedStates), String.valueOf(depth), String.valueOf(time));
     }
-
-
 }
