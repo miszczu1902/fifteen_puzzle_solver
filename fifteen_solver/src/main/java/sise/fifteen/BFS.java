@@ -62,7 +62,7 @@ public class BFS {
                 result.add(newBoard);
             }
         }
-        System.out.println(result.size());
+//        System.out.println(result.size());
         return result;
     }
 }

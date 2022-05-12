@@ -7,6 +7,7 @@ import java.math.RoundingMode;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,6 +30,7 @@ public class Main {
         double time = 0;
 
         int length = 0;
+        int length2 = 0;
         int depth = 0;
         String Path = "";
         Board solvedBoard;
@@ -45,6 +47,7 @@ public class Main {
         if (Objects.equals(strategy, "bfs")) {
             timeStart = System.nanoTime();
             BFS bfs = new BFS(board);
+
             solvedBoard = bfs.check(board, Board.setOrder(order));
             timeStop = System.nanoTime();
             processedStates = bfs.getProcessedStates();
@@ -52,6 +55,8 @@ public class Main {
             time = Math.round((timeStop - timeStart) / 1000.0) / 1000.0;
             //time=(timeStop - timeStart) / 1000000.0;
             length = solvedBoard.getPath().length();
+            length2 = solvedBoard.getPath().length();
+
             Path = solvedBoard.getPath();
             depth = solvedBoard.getDepth();
             //System.out.println(solvedBoard.getDepth());
@@ -67,9 +72,8 @@ public class Main {
             time = Math.round((timeStop - timeStart) / 1000.0) / 1000.0;
             // time=(timeStop - timeStart) / 1000000.0;
             if (solvedBoard == null) {
-                System.out.println("xd");
-                length =  -1;
-                Path = "";
+                //System.out.println("xd");
+                length=-1;
                 depth = dfs.getHighestDepth();
             } else {
                 length = solvedBoard.getPath().length();

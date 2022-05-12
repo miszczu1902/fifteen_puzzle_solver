@@ -68,7 +68,8 @@ public class DFS {
                 }
             }
         }
-
+        this.visitedStates = S.size() + T.size();
+        this.processedStates = T.size();
         return null;
     }
 

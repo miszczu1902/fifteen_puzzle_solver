@@ -31,25 +31,31 @@ public class IOFileOperations implements AutoCloseable {
 
     public static void saveToFile(String path, String numberOfMoves,String Moves) throws IOException {
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(String.valueOf(path)));
-        bufferedWriter.write(numberOfMoves);
-        bufferedWriter.write('\n');
-        bufferedWriter.write(Moves);
-        bufferedWriter.close();
 
+        bufferedWriter.write(numberOfMoves);
+        if(!numberOfMoves.equals("-1"))
+        {
+            bufferedWriter.write('\n');
+            bufferedWriter.write(Moves);
+
+        }
+
+        bufferedWriter.close();
     }
 
 
     public static void saveToFileInformations(String path, String numberOfMoves,String VisitedStates,String ProcessedMoves,String depth,String Time) throws IOException {
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(String.valueOf(path)));
         bufferedWriter.write(numberOfMoves);
-        bufferedWriter.write('\n');
-        bufferedWriter.write(VisitedStates);
-        bufferedWriter.write('\n');
-        bufferedWriter.write(ProcessedMoves);
-        bufferedWriter.write('\n');
-        bufferedWriter.write(depth);
-        bufferedWriter.write('\n');
-        bufferedWriter.write(Time);
+            bufferedWriter.write('\n');
+            bufferedWriter.write(VisitedStates);
+            bufferedWriter.write('\n');
+            bufferedWriter.write(ProcessedMoves);
+            bufferedWriter.write('\n');
+            bufferedWriter.write(depth);
+            bufferedWriter.write('\n');
+            bufferedWriter.write(Time);
+
 
 
         bufferedWriter.close();
