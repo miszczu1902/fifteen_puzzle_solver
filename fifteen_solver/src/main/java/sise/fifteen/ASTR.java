@@ -20,10 +20,6 @@ public class ASTR {
         return processedStates;
     }
 
-    public int getHeuristicValue() {
-        return heuristicValue;
-    }
-
     public Board check(Board s, Movement[] movesOrder, String heuristic) {
 
         if (s.isOrdered(this.board)) {
@@ -46,11 +42,8 @@ public class ASTR {
 
             for (Board neighbour : neighbours) {
                 if (!T.contains(neighbour)) {
-                    neighbour.calculateHeuristic(heuristic, neighbour.getDepth());
+                    neighbour.calculateHeuristic(board, heuristic, neighbour.getDepth());
                     this.heuristicValue = neighbour.getHeuristicValue();
-//                    System.out.println(this.heuristicValue);
-//                    System.out.println(neighbour.getDepth());
-                    // tu liczyc wartosc heurystyki
                     if (!P.contains(neighbour)) {
                         P.add(neighbour);
                     }

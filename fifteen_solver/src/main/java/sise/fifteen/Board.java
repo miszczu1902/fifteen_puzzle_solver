@@ -118,25 +118,21 @@ public class Board implements Comparable<Board> {
         switch (move) {
             case U:
                 if (yZeroCoordinate != 0) {
-
                     return true;
                 }
                 break;
             case D:
                 if (yZeroCoordinate != board.getHeight() - 1) {
-
                     return true;
                 }
                 break;
             case L:
                 if (xZeroCoordinate != 0) {
-
                     return true;
                 }
                 break;
             case R:
                 if (xZeroCoordinate != board.getWidth() - 1) {
-
                     return true;
                 }
                 break;
@@ -225,38 +221,52 @@ public class Board implements Comparable<Board> {
     }
 
     public static Movement[] setOrder(String operators) {
-
         Movement[] strategy = new Movement[4];
 
         for (int i = 0; i < operators.length(); i++) {
             char move = operators.charAt(i);
 
-
             switch (move) {
-
                 case 'U' -> strategy[i] = Movement.U;
                 case 'D' -> strategy[i] = Movement.D;
                 case 'L' -> strategy[i] = Movement.L;
                 case 'R' -> strategy[i] = Movement.R;
             }
         }
+
         return strategy;
     }
 
-    public void calculateHeuristic(String heuristic, int depth) {
-        int value = 0;
+    public void calculateHeuristic(Board board,String heuristic, int depth) {
 
+        int value = 0;
         if (Objects.equals(heuristic, "hamm")) {
             int expectedValue = 1;
-            for (int x = 0; x < this.getWidth(); x++) {
-                for (int y = 0; y < this.getHeight(); y++) {
-                        if (fields[x][y] != expectedValue) {
-                            value++;
-                        }
+            for (int x = 0; x < board.getWidth(); x++) {
+
+                for (int y = 0; y < board.getHeight(); y++) {
+                    if (fields[x][y] != expectedValue) {
+                        value++;
+                    }
                     expectedValue++;
                 }
             }
 
+        }
+        else if (Objects.equals(heuristic, "manh"))
+        {
+            for (int x = 0; x < board.getWidth(); x++) {
+                for (int y = 0; y < board.getHeight(); y++) {
+                    int expectedvalue = fields[x][y];
+                    if (expectedvalue != 0)
+                    {
+                        expectedvalue--;
+                        int X = expectedvalue / board.getHeight();
+                        int Y = expectedvalue % board.getWidth();
+                        value += Math.abs(x - X) + Math.abs(y - Y);
+                    }
+                }
+            }
         }
         this.heuristicValue = value + depth;
     }

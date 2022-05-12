@@ -6,6 +6,7 @@ public class BFS {
     private final Board board;
     private int visitedStates = 0;
     private int processedStates;
+
     public BFS(Board b) {
         this.board = b;
     }
@@ -17,6 +18,7 @@ public class BFS {
     public int getProcessedStates() {
         return processedStates;
     }
+
     public Board check(Board s, Movement[] movesOrder) {
 
         if (s.isOrdered(this.board)) {
@@ -30,7 +32,6 @@ public class BFS {
         while (!Q.isEmpty()) {
 
             Board v = Q.poll();
-//            this.visitedStates++;
 
             T.add(v);
             List<Board> neighbours = this.neighbours(movesOrder, v);
@@ -40,9 +41,6 @@ public class BFS {
                     if (neighbour.isOrdered(this.board)) {
                         this.visitedStates = Q.size() + T.size();
                         this.processedStates = T.size();
-                        //System.out.println(Q.size());
-                        //System.out.println(T.size());
-                        //System.out.println(this.board.getDepth());
                         return neighbour;
                     }
                 }
@@ -62,7 +60,6 @@ public class BFS {
                 result.add(newBoard);
             }
         }
-//        System.out.println(result.size());
         return result;
     }
 }
