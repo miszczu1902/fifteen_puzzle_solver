@@ -19,6 +19,8 @@ public class Main {
 
         String strategy = args[0].toLowerCase();
         String order = args[1].toUpperCase();
+       // String strategy=args[0];
+        //String order=args[1];
         String sourceBoardFilePath = args[2];
         String solutionFilePath = args[3];
         String statisticsFilePath = args[4];
