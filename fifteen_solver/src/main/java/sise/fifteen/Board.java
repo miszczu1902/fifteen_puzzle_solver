@@ -162,6 +162,7 @@ public class Board implements Comparable<Board> {
                 path += "R";
                 previousMove = Movement.R;
             }
+
         }
     }
 
@@ -200,6 +201,7 @@ public class Board implements Comparable<Board> {
                 expectedValue++;
             }
         }
+
         return true;
     }
 

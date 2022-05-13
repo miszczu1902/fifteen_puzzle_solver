@@ -3,7 +3,7 @@ package sise.fifteen;
 import java.util.*;
 
 public class DFS {
-    private final int maxDepth = 20;
+    private final int maxDepth = 21;
     private final Board board;
     private int visitedStates;
     private int processedStates;
@@ -38,20 +38,21 @@ public class DFS {
 
         while (!S.isEmpty()) {
             Board v = S.pop();
-            if (v.getDepth() > this.maxDepth) {
-                continue;
-            }
+//            if (v.getDepth() > this.maxDepth) {
+//                continue;
+//            }
 
-            if (v.getDepth() > this.depth) {
-                this.depth = v.getDepth();
-            }
 
-            if (!T.contains(v)) {
+
+            if (!T.contains(v)&&v.getDepth()<this.maxDepth) {
                 T.add(v);
                 List<Board> neighbours = this.neighbours(movesOrder, v);
                 Collections.reverse(neighbours);
 
                 for (Board neighbour : neighbours) {
+                    if (neighbour.getDepth() > this.depth) {
+                        this.depth = neighbour.getDepth();
+                    }
                     if (neighbour.isOrdered(this.board)) {
                         this.visitedStates = S.size() + T.size();
                         this.processedStates = T.size();

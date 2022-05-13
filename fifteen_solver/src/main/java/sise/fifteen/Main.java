@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Main {
@@ -16,8 +17,8 @@ public class Main {
         // 3 - rozwiazana plansza
         // 4 - statystki rozwiazania
 
-        String strategy = args[0];
-        String order = args[1];
+        String strategy = args[0].toLowerCase();
+        String order = args[1].toUpperCase();
         String sourceBoardFilePath = args[2];
         String solutionFilePath = args[3];
         String statisticsFilePath = args[4];
@@ -48,21 +49,25 @@ public class Main {
             length = solvedBoard.getPath().length();
             Path = solvedBoard.getPath();
             depth = solvedBoard.getDepth();
+
         } else if (Objects.equals(strategy, "dfs")) {
             timeStart = System.nanoTime();
+            //timeStart = System.currentTimeMillis();
             DFS dfs = new DFS(board);
             solvedBoard = dfs.check(board, Board.setOrder(order));
             timeStop = System.nanoTime();
+            //timeStop = System.currentTimeMillis();
             processedStates = dfs.getProcessedStates();
             visitedStates = dfs.getVisitedStates();
             time = Math.round((timeStop - timeStart) / 1000.0) / 1000.0;
+            //time = Math.round((timeStop - timeStart));
             if (solvedBoard == null) {
                 length = -1;
                 depth = dfs.getHighestDepth();
             } else {
                 length = solvedBoard.getPath().length();
                 Path = solvedBoard.getPath();
-                depth = solvedBoard.getDepth();
+                depth = dfs.getHighestDepth();
             }
 
         } else {
