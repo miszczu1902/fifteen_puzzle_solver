@@ -24,11 +24,11 @@ public class Main {
         String sourceBoardFilePath = args[2];
         String solutionFilePath = args[3];
         String statisticsFilePath = args[4];
-        int processedStates;
-        int visitedStates;
-        double time;
-        int length;
-        int depth;
+        int processedStates=0;
+        int visitedStates=0;
+        String time;
+        int length=0;
+        int depth=0;
         String Path = "";
         Board solvedBoard;
 
@@ -37,32 +37,24 @@ public class Main {
                 currentDir.toAbsolutePath() + "/" + sourceBoardFilePath);
 
         Board board = new Board(integers);
-        long timeStart;
-        long timeStop;
 
         if (Objects.equals(strategy, "bfs")) {
-            timeStart = System.nanoTime();
             BFS bfs = new BFS(board);
             solvedBoard = bfs.check(board, Board.setOrder(order));
-            timeStop = System.nanoTime();
             processedStates = bfs.getProcessedStates();
             visitedStates = bfs.getVisitedStates();
-            time = Math.round((timeStop - timeStart) / 1000.0) / 1000.0;
+            time = String.format("%.3f", bfs.time);
             length = solvedBoard.getPath().length();
             Path = solvedBoard.getPath();
             depth = solvedBoard.getDepth();
 
         } else if (Objects.equals(strategy, "dfs")) {
-            timeStart = System.nanoTime();
-            //timeStart = System.currentTimeMillis();
+
             DFS dfs = new DFS(board);
             solvedBoard = dfs.check(board, Board.setOrder(order));
-            timeStop = System.nanoTime();
-            //timeStop = System.currentTimeMillis();
             processedStates = dfs.getProcessedStates();
             visitedStates = dfs.getVisitedStates();
-            time = Math.round((timeStop - timeStart) / 1000.0) / 1000.0;
-            //time = Math.round((timeStop - timeStart));
+            time = String.format("%.3f", dfs.time);
             if (solvedBoard == null) {
                 length = -1;
                 depth = dfs.getHighestDepth();
@@ -73,13 +65,11 @@ public class Main {
             }
 
         } else {
-            timeStart = System.nanoTime();
             ASTR astr = new ASTR(board);
             solvedBoard = astr.check(board, Board.setOrder("LRUD"), order);
-            timeStop = System.nanoTime();
             processedStates = astr.getProcessedStates();
             visitedStates = astr.getVisitedStates();
-            time = Math.round((timeStop - timeStart) / 1000.0) / 1000.0;
+            time = String.format("%.3f", astr.time);
             length = solvedBoard.getPath().length();
             Path = solvedBoard.getPath();
             depth = solvedBoard.getDepth();
@@ -87,6 +77,6 @@ public class Main {
         IOFileOperations.saveToFile(solutionFilePath, String.valueOf(length), Path);
         IOFileOperations.saveToFileInformations(statisticsFilePath, String.valueOf(length),
                 String.valueOf(visitedStates),
-                String.valueOf(processedStates), String.valueOf(depth), String.valueOf(time));
+                String.valueOf(processedStates), String.valueOf(depth), time);
     }
 }

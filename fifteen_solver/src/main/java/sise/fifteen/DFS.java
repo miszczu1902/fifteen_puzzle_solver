@@ -8,6 +8,8 @@ public class DFS {
     private int visitedStates;
     private int processedStates;
     private int depth = 0;
+    double time=0;
+    long timeStart;
     private String path = "";
 
     public DFS(Board b) {
@@ -27,8 +29,9 @@ public class DFS {
     }
 
     public Board check(Board s, Movement[] movesOrder) {
-
+        timeStart=System.nanoTime();
         if (s.isOrdered(this.board)) {
+            time=(System.nanoTime()-timeStart)/1000000f;
             return s;
         }
 
@@ -54,6 +57,7 @@ public class DFS {
                         this.depth = neighbour.getDepth();
                     }
                     if (neighbour.isOrdered(this.board)) {
+                        time=(System.nanoTime()-timeStart)/1000000f;
                         this.visitedStates = S.size() + T.size();
                         this.processedStates = T.size();
 
@@ -65,6 +69,7 @@ public class DFS {
                 }
             }
         }
+        time=(System.nanoTime()-timeStart)/1000000f;
         this.visitedStates = S.size() + T.size();
         this.processedStates = T.size();
         return null;

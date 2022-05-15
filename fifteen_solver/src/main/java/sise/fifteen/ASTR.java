@@ -7,6 +7,8 @@ public class ASTR {
     private int visitedStates;
     private int processedStates;
     private int heuristicValue;
+    double time=0;
+    long timeStart;
 
     public ASTR(Board b) {
         this.board = b;
@@ -21,7 +23,9 @@ public class ASTR {
     }
 
     public Board check(Board s, Movement[] movesOrder, String heuristic) {
+        timeStart=System.nanoTime();
         if (s.isOrdered(this.board)) {
+            time=(System.nanoTime()-timeStart)/1000000f;
             return s;
         }
 
@@ -32,6 +36,7 @@ public class ASTR {
         while (!P.isEmpty()) {
             Board v = P.poll();
             if (v.isOrdered(this.board)) {
+                time=(System.nanoTime()-timeStart)/1000000f;
                 this.visitedStates = P.size() + T.size();
                 this.processedStates = T.size();
                 return v;
@@ -56,7 +61,9 @@ public class ASTR {
                 }
             }
         }
-
+        time=(System.nanoTime()-timeStart)/1000000f;
+        this.visitedStates = P.size() + T.size();
+        this.processedStates = T.size();
         return null;
     }
 
