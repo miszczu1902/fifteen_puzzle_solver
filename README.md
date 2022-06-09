@@ -4,7 +4,7 @@ Program solves 15 puzzle board. There will be 4 algorithms that can solve 15 puz
 Used algorithms:
 * BFS (breadth first search)
 * DFS (deep first search)
- A-Star:
+* A-Star:
   * Hamming
   * Manhattan
 
