@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 public class Main {
@@ -19,24 +18,20 @@ public class Main {
 
         String strategy = args[0].toLowerCase();
         String order = args[1].toUpperCase();
-       // String strategy=args[0];
-        //String order=args[1];
         String sourceBoardFilePath = args[2];
         String solutionFilePath = args[3];
         String statisticsFilePath = args[4];
-        int processedStates=0;
-        int visitedStates=0;
         String time;
-        int length=0;
-        int depth=0;
         String Path = "";
-        Board solvedBoard;
-
+        int processedStates = 0;
+        int visitedStates = 0;
+        int length = 0;
+        int depth = 0;
         Path currentDir = Paths.get("");
         List<Integer> integers = IOFileOperations.readFromFile(
                 currentDir.toAbsolutePath() + "/" + sourceBoardFilePath);
-
         Board board = new Board(integers);
+        Board solvedBoard;
 
         if (Objects.equals(strategy, "bfs")) {
             BFS bfs = new BFS(board);
@@ -49,7 +44,6 @@ public class Main {
             depth = solvedBoard.getDepth();
 
         } else if (Objects.equals(strategy, "dfs")) {
-
             DFS dfs = new DFS(board);
             solvedBoard = dfs.check(board, Board.setOrder(order));
             processedStates = dfs.getProcessedStates();
@@ -63,7 +57,6 @@ public class Main {
                 Path = solvedBoard.getPath();
                 depth = dfs.getHighestDepth();
             }
-
         } else {
             ASTR astr = new ASTR(board);
             solvedBoard = astr.check(board, Board.setOrder("LRUD"), order);

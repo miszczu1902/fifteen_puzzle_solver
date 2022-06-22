@@ -6,9 +6,9 @@ public class BFS {
     private final Board board;
     private int visitedStates = 0;
     private int processedStates;
-    double time=0;
+    double time = 0;
     long timeStart;
-    long timeStop;
+
     public BFS(Board b) {
         this.board = b;
     }
@@ -22,9 +22,9 @@ public class BFS {
     }
 
     public Board check(Board s, Movement[] movesOrder) {
-        timeStart=System.nanoTime();
+        timeStart = System.nanoTime();
         if (s.isOrdered(this.board)) {
-            time=(System.nanoTime()-timeStart)/1000000f;
+            time = (System.nanoTime() - timeStart) / 1000000f;
             return s;
         }
 
@@ -40,7 +40,7 @@ public class BFS {
             for (Board neighbour : neighbours) {
                 if (!T.contains(neighbour) && !Q.contains(neighbour)) {
                     if (neighbour.isOrdered(this.board)) {
-                        time=(System.nanoTime()-timeStart)/1000000.0;
+                        time = (System.nanoTime() - timeStart) / 1000000.0;
                         this.visitedStates = Q.size() + T.size();
                         this.processedStates = T.size();
                         return neighbour;
@@ -49,7 +49,7 @@ public class BFS {
                 Q.add(neighbour);
             }
         }
-        time=(System.nanoTime()-timeStart)/1000000f;
+        time = (System.nanoTime() - timeStart) / 1000000f;
         this.visitedStates = Q.size() + T.size();
         this.processedStates = T.size();
         return null;

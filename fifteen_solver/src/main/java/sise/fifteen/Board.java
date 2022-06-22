@@ -14,7 +14,6 @@ public class Board implements Comparable<Board> {
     private int xZeroCoordinate;
     private int yZeroCoordinate;
     public int depth;
-
     private int heuristicValue = 0;
 
     public Board(List<Integer> params) {
